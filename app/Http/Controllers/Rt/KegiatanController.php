@@ -12,10 +12,10 @@ class KegiatanController extends Controller
     public function index()
     {
         $kegiatan = Kegiatan::with('user')->latest()->get();
-        return view('rw.rt.kegiatan.index', compact('kegiatan'));
+        return view('rt.kegiatan.index', compact('kegiatan'));
     }
 
-    public function create() { return view('rw.rt.kegiatan.create'); }
+    public function create() { return view('rt.kegiatan.create'); }
 
     public function store(Request $request)
     {
@@ -39,7 +39,7 @@ class KegiatanController extends Controller
 
     public function edit(Kegiatan $kegiatan)
     {
-        return view('rw.rt.kegiatan.edit', compact('kegiatan'));
+        return view('rt.kegiatan.edit', compact('kegiatan'));
     }
 
     public function update(Request $request, Kegiatan $kegiatan)

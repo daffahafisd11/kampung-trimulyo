@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Umkm;
 use App\Models\Rt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UmkmController extends Controller
 {
     private function getRt()
     {
-        return Rt::first(); // TODO: ganti ke relasi user->rt
+        $rt = Auth::user()->rt;
+
+        if (!$rt) {
+            abort(404, 'Data RT tidak ditemukan untuk akun ini.');
+        }
+
+        return $rt;
     }
 
     public function index()
@@ -21,7 +28,7 @@ class UmkmController extends Controller
             ->whereHas('warga', fn($q) => $q->where('rt_id', $rt->id))
             ->latest()->get();
 
-        return view('rw.rt.umkm.index', compact('umkm'));
+        return view('rt.umkm.index', compact('umkm'));
     }
 
     public function updateStatus(Request $request, Umkm $umkm)

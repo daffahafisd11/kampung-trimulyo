@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Rt;
-use App\Models\rw;
+use App\Models\Rw;
 
 class RtSeeder extends Seeder
 {

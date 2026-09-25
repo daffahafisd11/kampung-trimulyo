@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class KasRt extends Model
 {
-    protected $tabel = 'kas_rt';
+    protected $table = 'kas_rt';
 
     protected $fillable = [
         'rt_id',
@@ -17,10 +17,10 @@ class KasRt extends Model
         'keterangan',
         'jumlah',
     ];
-    
+
     protected $casts = [
         'tanggal' => 'date',
-        'jumlah' => 'decimal:2',
+        'jumlah'  => 'decimal:2',
     ];
 
     public function rt()

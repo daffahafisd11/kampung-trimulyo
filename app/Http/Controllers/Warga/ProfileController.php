@@ -11,7 +11,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $warga = Auth::user()->warga;
-        return view('rw.warga.profile.edit', compact('warga'));
+        return view('warga.profile.edit', compact('warga'));
     }
 
     public function update(Request $request)

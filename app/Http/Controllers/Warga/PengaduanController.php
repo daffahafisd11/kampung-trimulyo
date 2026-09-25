@@ -9,6 +9,7 @@ use App\Models\RiwayatPengaduan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facedes\Storage;
 
 class PengaduanController extends Controller
 {
@@ -19,13 +20,13 @@ class PengaduanController extends Controller
             ->where('warga_id', $warga->id)
             ->latest()->get();
 
-        return view('rw.warga.pengaduan.index', compact('pengaduan'));
+        return view('warga.pengaduan.index', compact('pengaduan'));
     }
 
     public function create()
     {
         $kategori = KategoriPengaduan::orderBy('nama_kategori')->get();
-        return view('rw.warga.pengaduan.create', compact('kategori'));
+        return view('warga.pengaduan.create', compact('kategori'));
     }
 
     public function store(Request $request)
@@ -35,9 +36,15 @@ class PengaduanController extends Controller
             'judul'       => ['required', 'string', 'max:255'],
             'lokasi'      => ['required', 'string', 'max:255'],
             'deskripsi'   => ['required', 'string'],
+            'foto'        => ['nullable', 'image', 'max:2048'],
         ]);
 
         $warga = Auth::user()->warga;
+
+        // Handle upload foto
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('pengaduan', 'public');
+        }
 
         DB::transaction(function () use ($validated, $warga) {
             $pengaduan = Pengaduan::create([
@@ -47,10 +54,10 @@ class PengaduanController extends Controller
                 'judul'       => $validated['judul'],
                 'lokasi'      => $validated['lokasi'],
                 'deskripsi'   => $validated['deskripsi'],
+                'foto'        => $validated['foto'] ?? null,
                 'status'      => 'menunggu_verifikasi',
             ]);
 
-            // Catat riwayat awal
             RiwayatPengaduan::create([
                 'pengaduan_id' => $pengaduan->id,
                 'user_id'      => Auth::id(),
@@ -70,7 +77,7 @@ class PengaduanController extends Controller
         }
 
         $pengaduan->load('kategori', 'rt', 'riwayat.user');
-        return view('rw.warga.pengaduan.show', compact('pengaduan'));
+        return view('warga.pengaduan.show', compact('pengaduan'));
     }
 
     public function edit(Pengaduan $pengaduan)
@@ -82,7 +89,7 @@ class PengaduanController extends Controller
         }
 
         $kategori = KategoriPengaduan::orderBy('nama_kategori')->get();
-        return view('rw.warga.pengaduan.edit', compact('pengaduan', 'kategori'));
+        return view('warga.pengaduan.edit', compact('pengaduan', 'kategori'));
     }
 
     public function update(Request $request, Pengaduan $pengaduan)
@@ -96,7 +103,17 @@ class PengaduanController extends Controller
             'judul'       => ['required', 'string', 'max:255'],
             'lokasi'      => ['required', 'string', 'max:255'],
             'deskripsi'   => ['required', 'string'],
+            'foto'        => ['nullable', 'image', 'max:2048'],
         ]);
+
+        // Handle upload foto baru
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama
+            if ($pengaduan->foto) {
+                Storage::disk('public')->delete($pengaduan->foto);
+            }
+            $validated['foto'] = $request->file('foto')->store('pengaduan', 'public');
+        }
 
         $pengaduan->update($validated);
 

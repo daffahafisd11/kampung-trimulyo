@@ -32,8 +32,9 @@ class Rt extends Model
         return $this->hasMany(KasRt::class);
     }
 
-    public function bandahara()
+    public function bendahara()
     {
-        return $this->hasONe(User::class)->where('is_bendahara', true);
+        return $this->hasOne(User::class)
+            ->where('is_bendahara', true);
     }
 }

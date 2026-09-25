@@ -12,11 +12,15 @@ use Illuminate\Support\Facades\DB;
 
 class PengaduanController extends Controller
 {
-    // Ambil RT dari user login (sementara: RT pertama)
     private function getRt()
     {
-        // TODO: ganti ke relasi user->rt setelah ditambahkan
-        return Rt::first();
+        $rt = Auth::user()->rt;
+
+        if (!$rt) {
+            abort(404, "Data RT tidak ditemukan untuk akun ini.");
+        }
+
+        return $rt;
     }
 
     public function index()
@@ -26,7 +30,7 @@ class PengaduanController extends Controller
             ->where('rt_id', $rt->id)
             ->latest()->get();
 
-        return view('rw.rt.pengaduan.index', compact('pengaduan'));
+        return view('rt.pengaduan.index', compact('pengaduan'));
     }
 
     public function show(Pengaduan $pengaduan)
@@ -35,7 +39,7 @@ class PengaduanController extends Controller
         if ($pengaduan->rt_id !== $rt->id) abort(403);
 
         $pengaduan->load('kategori', 'warga', 'riwayat.user');
-        return view('rw.rt.pengaduan.show', compact('pengaduan'));
+        return view('rt.pengaduan.show', compact('pengaduan'));
     }
 
     public function updateStatus(Request $request, Pengaduan $pengaduan)

@@ -12,10 +12,10 @@ class InformasiController extends Controller
     public function index()
     {
         $informasi = Informasi::with('user')->latest()->get();
-        return view('rw.rt.informasi.index', compact('informasi'));
+        return view('rt.informasi.index', compact('informasi'));
     }
 
-    public function create() { return view('rw.rt.informasi.create'); }
+    public function create() { return view('rt.informasi.create'); }
 
     public function store(Request $request)
     {
@@ -34,7 +34,7 @@ class InformasiController extends Controller
 
     public function edit(Informasi $informasi)
     {
-        return view('rw.rt.informasi.edit', compact('informasi'));
+        return view('rt.informasi.edit', compact('informasi'));
     }
 
     public function update(Request $request, Informasi $informasi)

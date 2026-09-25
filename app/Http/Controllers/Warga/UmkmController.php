@@ -14,13 +14,13 @@ class UmkmController extends Controller
     {
         $warga = Auth::user()->warga;
         $umkm = Umkm::with('kategori')->where('warga_id', $warga->id)->latest()->get();
-        return view('rw.warga.umkm.index', compact('umkm'));
+        return view('warga.umkm.index', compact('umkm'));
     }
 
     public function create()
     {
         $kategori = KategoriUmkm::orderBy('nama_kategori')->get();
-        return view('rw.warga.umkm.create', compact('kategori'));
+        return view('warga.umkm.create', compact('kategori'));
     }
 
     public function store(Request $request)
@@ -52,7 +52,7 @@ class UmkmController extends Controller
     {
         $warga = Auth::user()->warga;
         if ($umkm->warga_id !== $warga->id) abort(403);
-        return view('rw.warga.umkm.show', compact('umkm'));
+        return view('warga.umkm.show', compact('umkm'));
     }
 
     public function edit(Umkm $umkm)
@@ -61,7 +61,7 @@ class UmkmController extends Controller
         if ($umkm->warga_id !== $warga->id) abort(403);
 
         $kategori = KategoriUmkm::orderBy('nama_kategori')->get();
-        return view('rw.warga.umkm.edit', compact('umkm', 'kategori'));
+        return view('warga.umkm.edit', compact('umkm', 'kategori'));
     }
 
     public function update(Request $request, Umkm $umkm)

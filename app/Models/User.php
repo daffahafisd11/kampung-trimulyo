@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Kegiatan;
 
 class User extends Authenticatable
 {
@@ -16,7 +15,9 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime', 'password' => 'hashed', 'is_bendahara' => 'boolean',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_bendahara' => 'boolean',
     ];
 
     protected $hidden = [
@@ -26,7 +27,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime', 'password' => 'hashed',
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'is_bendahara' => 'boolean',
         ];
     }
 
@@ -77,6 +80,6 @@ class User extends Authenticatable
 
     public function isBendahara(): bool
     {
-        return $this->is_bendahara === true;
+        return $this->is_bendahara === true && $this->rt_id !== null;
     }
 }

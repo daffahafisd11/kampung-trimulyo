@@ -13,17 +13,24 @@ use App\Http\Controllers\Rw\PengaduanController as RwPengaduanController;
 use App\Http\Controllers\Rw\UmkmController as RwUmkmController;
 use App\Http\Controllers\Rw\InformasiController as RwInformasiController;
 use App\Http\Controllers\Rw\KegiatanController as RwKegiatanController;
+use App\Http\Controllers\Rw\KasController as RwKasController;
+use App\Http\Controllers\Rw\BendaharaController as RwBendaharaController;
 
 // Controller RT
 use App\Http\Controllers\Rt\PengaduanController as RtPengaduanController;
 use App\Http\Controllers\Rt\UmkmController as RtUmkmController;
 use App\Http\Controllers\Rt\InformasiController as RtInformasiController;
 use App\Http\Controllers\Rt\KegiatanController as RtKegiatanController;
+use App\Http\Controllers\Rt\KasController as RtKasController;
+
+// Controller Bendahara
+use App\Http\Controllers\Bendahara\KasController as BendaharaKasController;
 
 // Controller Warga
 use App\Http\Controllers\Warga\PengaduanController as WargaPengaduanController;
 use App\Http\Controllers\Warga\UmkmController as WargaUmkmController;
 use App\Http\Controllers\Warga\ProfileController as WargaProfileController;
+use App\Http\Controllers\Warga\KasController as WargaKasController;
 
 
 /*
@@ -69,6 +76,16 @@ Route::middleware(['auth', 'role:rw'])->prefix('rw')->name('rw.')->group(functio
     // Informasi & Kegiatan
     Route::resource('informasi', RwInformasiController::class);
     Route::resource('kegiatan', RwKegiatanController::class);
+
+    // ==================== KAS RT (RW bisa lihat semua) ====================
+    Route::get('/kas', [RwKasController::class, 'index'])->name('kas.index');
+    Route::get('/kas/{rt}', [RwKasController::class, 'show'])->name('kas.show');
+    Route::delete('/kas/{kas}', [RwKasController::class, 'destroy'])->name('kas.destroy');
+
+    // ==================== KELOLA BENDAHARA ====================
+    Route::get('/bendahara', [RwBendaharaController::class, 'index'])->name('bendahara.index');
+    Route::get('/bendahara/{rt}/edit', [RwBendaharaController::class, 'edit'])->name('bendahara.edit');
+    Route::put('/bendahara/{rt}', [RwBendaharaController::class, 'update'])->name('bendahara.update');
 });
 
 
@@ -95,6 +112,30 @@ Route::middleware(['auth', 'role:rt'])->prefix('rt')->name('rt.')->group(functio
     // Informasi & Kegiatan (CRUD penuh)
     Route::resource('informasi', RtInformasiController::class);
     Route::resource('kegiatan', RtKegiatanController::class);
+
+    // ==================== KAS RT (RT lihat kas RT sendiri) ====================
+    Route::get('/kas', [RtKasController::class, 'index'])->name('kas.index');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| BENDAHARA (warga yang ditunjuk bendahara)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'bendahara'])->prefix('bendahara')->name('bendahara.')->group(function () {
+    // Dashboard = list kas
+    Route::get('/dashboard', [BendaharaKasController::class, 'index'])->name('dashboard');
+
+    // CRUD Kas
+    Route::get('/kas', [BendaharaKasController::class, 'index'])->name('kas.index');
+    Route::get('/kas/create', [BendaharaKasController::class, 'create'])->name('kas.create');
+    Route::post('/kas', [BendaharaKasController::class, 'store'])->name('kas.store');
+    Route::get('/kas/{kas}', [BendaharaKasController::class, 'show'])->name('kas.show');
+    Route::get('/kas/{kas}/edit', [BendaharaKasController::class, 'edit'])->name('kas.edit');
+    Route::put('/kas/{kas}', [BendaharaKasController::class, 'update'])->name('kas.update');
+    Route::delete('/kas/{kas}', [BendaharaKasController::class, 'destroy'])->name('kas.destroy');
 });
 
 
@@ -116,4 +157,7 @@ Route::middleware(['auth', 'role:warga'])->prefix('warga')->name('warga.')->grou
     // Pengaduan & UMKM
     Route::resource('pengaduan', WargaPengaduanController::class);
     Route::resource('umkm', WargaUmkmController::class);
-}); 
+
+    // ==================== KAS RT (warga lihat kas RT sendiri, read-only) ====================
+    Route::get('/kas', [WargaKasController::class, 'index'])->name('kas.index');
+});
