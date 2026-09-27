@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Rw;
 
 use App\Http\Controllers\Controller;
 use App\Models\Umkm;
+use Illuminate\Http\Request;
 
 class UmkmController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Umkm::with(['kategori', 'warga.rt']);
         if ($request->filled('search')) {

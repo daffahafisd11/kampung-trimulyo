@@ -14,7 +14,7 @@ use Illuminate\Validation\Rules\Password;
 
 class WargaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Warga::with(['user', 'rt']);
 
@@ -23,7 +23,7 @@ class WargaController extends Controller
             $query->where(function ($q) use ($search) {
                 $q  ->where('nama_lengkap', 'like', "%{$search}%")
                     ->orWhere('nik', 'like', "%{$search}%")
-                    ->orWhere('user', fn($u) => $u->where('email', 'like', "%{$search}%"));
+                    ->orWhereHas('user', fn($userQuery) => $userQuery->where('email', 'like', "%{$search}%"));
             });
         }
 

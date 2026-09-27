@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Rw;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
+use Illuminate\Http\Request;
 
 class PengaduanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Pengaduan::with(['kategori', 'warga', 'rt']);
         if ($request->filled('search')) {

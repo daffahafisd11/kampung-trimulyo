@@ -37,20 +37,13 @@ class UmkmController extends Controller
 
         $warga = Auth::user()->warga;
 
-        if ($request->Hasfile('foto')) {
+        if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('umkm', 'public');
         }
 
-        Umkm::create([
-            'warga_id' => $warga->id,
-            'kategori_id' => $validated['kategori_id'],
-            'nama_usaha' => $validated['nama_usaha'],
-            'deskripsi' => $validated['deskripsi'],
-            'alamat' => $validated['alamat'],
-            'whatsapp' => $validated['whatsapp'],
-            'foto' => $validated['foto'],
-            'status' => $validated['status'],
-        ]);
+        $validated['warga_id'] = $warga->id;
+        $validated['status'] = 'menunggu_verifikasi';
+        Umkm::create($validated);
 
         return redirect()->route('warga.umkm.index')->with('success', 'UMKM berhasil didaftarkan');
     }
@@ -85,12 +78,13 @@ class UmkmController extends Controller
             'foto' => ['nullable', 'image', 'max:2048'],
         ]);
 
-        if ($request->Hasfile('foto')) {
-            if ($umkm->Foto) {
-                Storage::disk('public')-delete($umkm->foto);
-            }
-
+        if ($request->hasFile('foto')) {
+            $fotoLama = $umkm->foto;
             $validated['foto'] = $request->file('foto')->store('umkm', 'public');
+
+            if ($fotoLama) {
+                Storage::disk('public')->delete($fotoLama);
+            }
         }
 
         $validated['status'] = 'menunggu_verifikasi';

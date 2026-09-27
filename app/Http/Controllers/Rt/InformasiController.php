@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Informasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class InformasiController extends Controller
 {
@@ -24,9 +25,16 @@ class InformasiController extends Controller
             'isi'     => ['required', 'string'],
             'tanggal' => ['required', 'date'],
             'status'  => ['required', 'in:draft,dipublikasikan'],
+            'gambar'  => ['nullable', 'image', 'max:2048'],
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $validated['gambar'] = $request->file('gambar')->store('informasi', 'public');
+        }
+
         $validated['user_id'] = Auth::id();
         Informasi::create($validated);
+
         return redirect()->route('rt.informasi.index')->with('success', 'Informasi berhasil ditambahkan.');
     }
 
@@ -44,8 +52,19 @@ class InformasiController extends Controller
             'isi'     => ['required', 'string'],
             'tanggal' => ['required', 'date'],
             'status'  => ['required', 'in:draft,dipublikasikan'],
+            'gambar'  => ['nullable', 'image', 'max:2048'],
         ]);
+        
+        if ($request->hasFile('gambar')) {
+            if ($informasi->gambar) {
+                Storage::disk('public')->delete($informasi->gambar);
+            }
+
+            $validated['gambar'] = $request->file('gambar')->store('informasi', 'public');
+        }
+
         $informasi->update($validated);
+
         return redirect()->route('rt.informasi.index')->with('success', 'Informasi berhasil diperbarui.');
     }
 

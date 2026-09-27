@@ -30,7 +30,7 @@ class LandingController extends Controller
         if ($search) {
             $informasiQuery->where(function ($q) use ($search) {
                 $q  ->where('judul', 'like', "%{$search}%")
-                    ->orWhere('is', 'like', "%{$search}%");
+                    ->orWhere('isi', 'like', "%{$search}%");
             });
 
             $kegiatanQuery->where(function ($q) use ($search) {

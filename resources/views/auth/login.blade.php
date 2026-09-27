@@ -35,5 +35,7 @@
 
         <button type="submit">Login</button>
     </form>
+
+    <a href="{{ route('landing') }}">kembali</a>
 </body>
 </html>

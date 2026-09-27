@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class KegiatanController extends Controller
 {
@@ -27,7 +28,12 @@ class KegiatanController extends Controller
             'lokasi'         => ['required', 'string', 'max:255'],
             'deskripsi'      => ['required', 'string'],
             'status'         => ['required', 'in:aktif,selesai,dibatalkan'],
+            'gambar'         => ['nullable', 'image', 'max:2048'],
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $validated['gambar'] = $request->file('gambar')->store('kegiatan', 'public');
+        }
 
         $validated['user_id'] = Auth::id();
         Kegiatan::create($validated);
@@ -52,9 +58,19 @@ class KegiatanController extends Controller
             'lokasi'         => ['required', 'string', 'max:255'],
             'deskripsi'      => ['required', 'string'],
             'status'         => ['required', 'in:aktif,selesai,dibatalkan'],
+            'gambar'         => ['nullable', 'image', 'max:2048'],
         ]);
 
+        if ($request->hasFile('gambar')) {
+            if ($kegiatan->gambar) {
+                Storage::disk('public')->delete($kegiatan->gambar);
+            }
+
+            $validated['gambar'] = $request->file('gambar')->store('kegiatan', 'public');
+        }
+
         $kegiatan->update($validated);
+
         return redirect()->route('rw.kegiatan.index')->with('success', 'Kegiatan berhasil diperbarui.');
     }
 
