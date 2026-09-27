@@ -7,6 +7,7 @@ use App\Models\Umkm;
 use App\Models\KategoriUmkm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UmkmController extends Controller
 {
@@ -27,25 +28,31 @@ class UmkmController extends Controller
     {
         $validated = $request->validate([
             'kategori_id' => ['required', 'exists:kategori_umkm,id'],
-            'nama_usaha'  => ['required', 'string', 'max:255'],
-            'deskripsi'   => ['required', 'string'],
-            'alamat'      => ['required', 'string'],
-            'whatsapp'    => ['required', 'string', 'max:20'],
+            'nama_usaha' => ['required', 'string', 'max:255'],
+            'deskripsi' => ['required', 'string'],
+            'alamat' => ['required', 'string'],
+            'whatsapp' => ['required', 'string', 'max:20'],
+            'foto' => ['nullable', 'image', 'max:2048'],
         ]);
 
         $warga = Auth::user()->warga;
 
+        if ($request->Hasfile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('umkm', 'public');
+        }
+
         Umkm::create([
-            'warga_id'    => $warga->id,
+            'warga_id' => $warga->id,
             'kategori_id' => $validated['kategori_id'],
-            'nama_usaha'  => $validated['nama_usaha'],
-            'deskripsi'   => $validated['deskripsi'],
-            'alamat'      => $validated['alamat'],
-            'whatsapp'    => $validated['whatsapp'],
-            'status'      => 'menunggu_verifikasi',
+            'nama_usaha' => $validated['nama_usaha'],
+            'deskripsi' => $validated['deskripsi'],
+            'alamat' => $validated['alamat'],
+            'whatsapp' => $validated['whatsapp'],
+            'foto' => $validated['foto'],
+            'status' => $validated['status'],
         ]);
 
-        return redirect()->route('warga.umkm.index')->with('success', 'UMKM berhasil didaftarkan.');
+        return redirect()->route('warga.umkm.index')->with('success', 'UMKM berhasil didaftarkan');
     }
 
     public function show(Umkm $umkm)
@@ -71,13 +78,21 @@ class UmkmController extends Controller
 
         $validated = $request->validate([
             'kategori_id' => ['required', 'exists:kategori_umkm,id'],
-            'nama_usaha'  => ['required', 'string', 'max:255'],
-            'deskripsi'   => ['required', 'string'],
-            'alamat'      => ['required', 'string'],
-            'whatsapp'    => ['required', 'string', 'max:20'],
+            'nama_usaha' => ['required', 'string', 'max:255'],
+            'deskripsi' => ['required', 'string'],
+            'alamat' => ['required', 'string'],
+            'whatsapp' => ['required', 'string', 'max:20'],
+            'foto' => ['nullable', 'image', 'max:2048'],
         ]);
 
-        // Setelah edit, kembalikan ke menunggu verifikasi
+        if ($request->Hasfile('foto')) {
+            if ($umkm->Foto) {
+                Storage::disk('public')-delete($umkm->foto);
+            }
+
+            $validated['foto'] = $request->file('foto')->store('umkm', 'public');
+        }
+
         $validated['status'] = 'menunggu_verifikasi';
         $umkm->update($validated);
 

@@ -11,7 +11,13 @@ class RtController extends Controller
 {
     public function index()
     {
-        $rt = Rt::with('rw')->orderBy('nama_rt')->get();
+        $query = Rt::with('rw');
+        if ($request->filled('search')) {
+            $query->where('nama_rt', 'like', '%' . $request->search . '$');
+        }
+
+        $rt = $query->orderBy('nama_rt')->paginate(20)->withQueryString();
+
         return view('rw.rt.index', compact('rt'));
     }
 

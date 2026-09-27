@@ -16,8 +16,26 @@ class WargaController extends Controller
 {
     public function index()
     {
-        $warga = Warga::with(['user', 'rt'])->orderBy('nama_lengkap')->get();
-        return view('rw.warga.index', compact('warga'));
+        $query = Warga::with(['user', 'rt']);
+
+        if($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q  ->where('nama_lengkap', 'like', "%{$search}%")
+                    ->orWhere('nik', 'like', "%{$search}%")
+                    ->orWhere('user', fn($u) => $u->where('email', 'like', "%{$search}%"));
+            });
+        }
+
+        if ($request->filled('rt_id')) {
+            $query->where('rt_id', $request->rt_id);
+        }
+
+        $warga = $query->orderBy('nama_lengkap')->paginate(20)->withQueryString();
+
+        $rt = Rt::orderBy('nama_rt')->get();
+
+        return view('rw.warga.index', compact('warga', 'rt'));
     }
 
     public function create()

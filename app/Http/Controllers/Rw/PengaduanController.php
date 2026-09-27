@@ -9,7 +9,17 @@ class PengaduanController extends Controller
 {
     public function index()
     {
-        $pengaduan = Pengaduan::with(['kategori', 'warga', 'rt'])->latest()->get();
+        $query = Pengaduan::with(['kategori', 'warga', 'rt']);
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        };
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $pengaduan = $query->latest()->paginate(20)->withQueryString();
+
         return view('rw.pengaduan.index', compact('pengaduan'));
     }
 

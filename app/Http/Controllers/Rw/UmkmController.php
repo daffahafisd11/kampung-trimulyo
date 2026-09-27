@@ -9,7 +9,17 @@ class UmkmController extends Controller
 {
     public function index()
     {
-        $umkm = Umkm::with(['kategori', 'warga.rt'])->latest()->get();
+        $query = Umkm::with(['kategori', 'warga.rt']);
+        if ($request->filled('search')) {
+            $query->where('nama_usaha', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $umkm = $query->latest()->paginate(20)->withQueryString();
+
         return view('rw.umkm.index', compact('umkm'));
     }
 

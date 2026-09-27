@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
 
 // Controller RW
 use App\Http\Controllers\Rw\RtController;
@@ -48,8 +49,8 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-// Root redirect ke login
-Route::get('/', fn() => redirect()->route('login'));
+
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 
 /*
