@@ -23,7 +23,7 @@ class InformasiBaruMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Informasi Baru Mail: ' . $this->informasi->judul,
+            subject: 'Informasi Baru Mail : ' . $this->informasi->judul,
         );
     }
 

@@ -22,7 +22,7 @@
 
     <hr>
     <p>
-        <a href="{{ route('landing') }}">Buka Landing Page</a>
+        <a href="{{ route('landing') }}">Webiste Kampung Trimulyo</a>
     </p>
     <p><small>Email ini dikirim otomatis dari Sistem Kampung Trimulyo.</small></p>
 </body>

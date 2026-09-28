@@ -56,7 +56,7 @@ class KegiatanController extends Controller
             $warga = User::where('role', 'warga')->get();
             foreach ($warga as $w) {
                 try {
-                    Mail::to($w->emial)->send(new KegiatanBaruMulai($kegiatan));
+                    Mail::to($w->email)->send(new KegiatanBaruMail($kegiatan));
                 } catch (\Exception $e) {
                     \Log::error('Email gagal ke ' . $w->email . ': ' . $e->getMessage());
                 }
