@@ -42,7 +42,7 @@ class InformasiController extends Controller
             'isi' => ['required', 'string'],
             'tanggal' => ['required', 'date'],
             'status' => ['required', 'in:draft,dipublikasikan'],
-            'gambar' => ['required', 'image', 'max:2048'],
+            'gambar' => ['nullable', 'image', 'max:2048'],
         ]);
 
         if ($request->hasFile('gambar')) {

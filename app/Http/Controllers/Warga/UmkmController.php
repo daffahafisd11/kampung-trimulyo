@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class UmkmController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $warga = Auth::user()->warga;
         
@@ -28,7 +28,7 @@ class UmkmController extends Controller
 
         $umkm = $query->latest()->paginate(20)->withQueryString();
 
-        return view('warga.umkm.inddex', compact('umkm'));
+        return view('warga.umkm.index', compact('umkm'));
     }
 
     public function create()

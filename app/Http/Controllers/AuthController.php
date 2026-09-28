@@ -46,14 +46,9 @@ class AuthController extends Controller
     {
         $user = Auth::user();
 
-        // Bendahara dulu (lebih spesifik)
-        if ($user->isBendahara()) {
-            return redirect()->route('bendahara.dashboard');
-        }
-
         return match ($user->role) {
-            'rw'    => redirect()->route('rw.dashboard'),
-            'rt'    => redirect()->route('rt.dashboard'),
+            'rw' => redirect()->route('rw.dashboard'),
+            'rt' => redirect()->route('rt.dashbaord'),
             'warga' => redirect()->route('warga.dashboard'),
             default => redirect()->route('login'),
         };

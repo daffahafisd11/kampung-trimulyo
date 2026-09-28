@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PengaduanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $warga = Auth::user()->warga;
         $query = Pengaduan::with('kategori')
