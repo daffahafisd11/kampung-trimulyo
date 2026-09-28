@@ -21,12 +21,22 @@ class UmkmController extends Controller
         return $rt;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $rt = $this->getRt();
-        $umkm = Umkm::with(['kategori', 'warga'])
-            ->whereHas('warga', fn($q) => $q->where('rt_id', $rt->id))
-            ->latest()->get();
+        
+        $query = Umkm::with(['kategori', 'warga'])
+            ->whereHas('warga', fn($q) => $q->where('rt_id', $rt->id));
+
+        if ($request->filled('search')) {
+            $query->where('nama_usaha', 'like', '%' . $request->string . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $umkm = $query->latest()->paginate(20)->withQueryString();
 
         return view('rt.umkm.index', compact('umkm'));
     }

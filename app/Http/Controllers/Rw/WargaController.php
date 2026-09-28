@@ -18,12 +18,12 @@ class WargaController extends Controller
     {
         $query = Warga::with(['user', 'rt']);
 
-        if($request->filled('search')) {
+        if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q  ->where('nama_lengkap', 'like', "%{$search}%")
                     ->orWhere('nik', 'like', "%{$search}%")
-                    ->orWhereHas('user', fn($userQuery) => $userQuery->where('email', 'like', "%{$search}%"));
+                    ->orWhereHas('user', fn($u) => $u->where('email', 'like', "%{$search}%"));
             });
         }
 

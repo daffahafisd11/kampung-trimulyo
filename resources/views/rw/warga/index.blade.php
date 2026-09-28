@@ -7,7 +7,6 @@
 
     @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
 
-    {{-- Form Search --}}
     <form method="GET" action="{{ route('rw.warga.index') }}">
         <input type="text" name="search" placeholder="Cari nama / NIK / email..." value="{{ request('search') }}">
         <select name="rt_id">

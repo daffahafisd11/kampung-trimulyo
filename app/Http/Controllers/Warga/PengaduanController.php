@@ -16,9 +16,18 @@ class PengaduanController extends Controller
     public function index()
     {
         $warga = Auth::user()->warga;
-        $pengaduan = Pengaduan::with('kategori')
-            ->where('warga_id', $warga->id)
-            ->latest()->get();
+        $query = Pengaduan::with('kategori')
+            ->where('warga_id', $warga->id);
+
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request . '$');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $pengaduan = $query->latest()->paginate(20)->withQueryString();
 
         return view('warga.pengaduan.index', compact('pengaduan'));
     }

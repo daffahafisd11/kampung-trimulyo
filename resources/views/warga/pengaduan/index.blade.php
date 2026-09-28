@@ -8,13 +8,27 @@
     @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
     @if (session('error')) <p style="color:red">{{ session('error') }}</p> @endif
 
+    <form method="GET" action="{{ route('warga.pengaduan.index') }}">
+        <input type="text" name="search" placeholder="Cari judul..." value="{{ request('search') }}">
+        <select name="status">
+            <option value="">Semua Status</option>
+            <option value="menunggu_verifikasi" {{ request('status') == 'menunggu_verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
+            <option value="diterima" {{ request('status') == 'diterima' ? 'selected' : '' }}>Diterima</option>
+            <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
+            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+        </select>
+        <button type="submit">Cari</button>
+        <a href="{{ route('warga.pengaduan.index') }}">Reset</a>
+    </form>
+
     <p><a href="{{ route('warga.pengaduan.create') }}">+ Buat Pengaduan</a></p>
 
     <table border="1" cellpadding="8">
         <tr><th>No</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr>
-        @foreach ($pengaduan as $i => $p)
+        @forelse ($pengaduan as $i => $p)
             <tr>
-                <td>{{ $i + 1 }}</td>
+                <td>{{ $pengaduan->firstItem() + $i }}</td>
                 <td>{{ $p->judul }}</td>
                 <td>{{ $p->kategori->nama_kategori }}</td>
                 <td>{{ $p->status }}</td>
@@ -29,7 +43,12 @@
                     @endif
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr><td colspan="5">Tidak ada data.</td></tr>
+        @endforelse
     </table>
+
+    <br>
+    {{ $pengaduan->links() }}
 </body>
 </html>

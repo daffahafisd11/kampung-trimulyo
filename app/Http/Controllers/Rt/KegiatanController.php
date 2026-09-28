@@ -7,12 +7,22 @@ use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\KegiatanBaruMail;
+use App\Models\User;
 
 class KegiatanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kegiatan = Kegiatan::with('user')->latest()->get();
+        $query = Kegiatan::with('user');
+
+        if ($request->filled('search')) {
+            $query->where('nama_kegiatan', 'like', '%' . $request->search . '%');
+        }
+
+        $kegiatan = $query->latest()->paginate(20)->withQueryString();
+
         return view('rt.kegiatan.index', compact('kegiatan'));
     }
 
@@ -21,14 +31,14 @@ class KegiatanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_kegiatan'  => ['required', 'string', 'max:255'],
-            'tanggal'        => ['required', 'date'],
-            'waktu_mulai'    => ['required'],
-            'waktu_selesai'  => ['required', 'after:waktu_mulai'],
-            'lokasi'         => ['required', 'string', 'max:255'],
-            'deskripsi'      => ['required', 'string'],
-            'status'         => ['required', 'in:aktif,selesai,dibatalkan'],
-            'gambar'         => ['nullable', 'image', 'max:2048'],
+            'nama_kegiatan' => ['required', 'string', 'max:255'],
+            'tanggal' => ['required', 'date'],
+            'waktu_mulai' => ['required'],
+            'waktu_selesai' => ['required', 'after:waktu_mulai'],
+            'lokasi' => ['required', 'string', 'max:255'],
+            'deskripsi' => ['required', 'string'],
+            'status' => ['required', 'in:aktif,selesai,dibatalkan'],
+            'gambar' => ['nullable', 'image', 'max:2048'],
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -36,7 +46,18 @@ class KegiatanController extends Controller
         }
 
         $validated['user_id'] = Auth::id();
-        Kegiatan::create($validated);
+        $kegiatan = Kegiatan::create($validated);
+
+        if ($kegiatan->status === 'aktif') {
+            $warga = User::where('role', 'warga')->get();
+            foreach ($warga as $w) {
+                try {
+                    Mail::to($w->email)->send(new KegiatanBaruMail($kegiatan));
+                } catch (\Exception $th) {
+                    \Log::error('Email gagal ke ' . $w->email . ': ' . $e->getMessage());
+                }
+            }
+        }
 
         return redirect()->route('rt.kegiatan.index')->with('success', 'Kegiatan berhasil ditambahkan.');
     }

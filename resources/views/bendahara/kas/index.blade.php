@@ -10,9 +10,15 @@
         <button>Logout</button>
     </form>
 
+    <p>
+        <a href="{{ route('profile.change-password') }}">🔒 Ganti Password</a>
+    </p>
+
     <hr>
 
-    @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
+    @if (session('success'))
+        <p style="color:green">{{ session('success') }}</p>
+    @endif
 
     <h2>Ringkasan</h2>
     <table border="1" cellpadding="8">
@@ -33,7 +39,7 @@
             <th>Jumlah</th>
             <th>Aksi</th>
         </tr>
-        @foreach ($transaksi as $t)
+        @forelse ($transaksi as $t)
             <tr>
                 <td>{{ $t->tanggal->format('d/m/Y') }}</td>
                 <td>{{ $t->jenis }}</td>
@@ -42,15 +48,18 @@
                 <td>Rp {{ number_format($t->jumlah, 0, ',', '.') }}</td>
                 <td>
                     <a href="{{ route('bendahara.kas.edit', $t->id) }}">Edit</a>
-                    <form method="POST" action="{{ route('bendahara.kas.destroy', $t->id) }}" style="display:inline" onsubmit="return confirm('Hapus?')">
+                    <form method="POST" action="{{ route('bendahara.kas.destroy', $t->id) }}" style="display:inline" onsubmit="return confirm('Hapus transaksi ini?')">
                         @csrf @method('DELETE')
                         <button>Hapus</button>
                     </form>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr><td colspan="6">Belum ada transaksi.</td></tr>
+        @endforelse
     </table>
 
+    <br>
     {{ $transaksi->links() }}
 </body>
 </html>

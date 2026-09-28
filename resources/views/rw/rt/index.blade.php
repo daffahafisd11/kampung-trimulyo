@@ -5,9 +5,13 @@
     <h1>Data RT</h1>
     <p><a href="{{ route('rw.dashboard') }}">← Dashboard</a></p>
 
-    @if (session('success'))
-        <p style="color:green">{{ session('success') }}</p>
-    @endif
+    @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
+
+    <form method="GET" action="{{ route('rw.rt.index') }}">
+        <input type="text" name="search" placeholder="Cari nama RT..." value="{{ request('search') }}">
+        <button type="submit">Cari</button>
+        <a href="{{ route('rw.rt.index') }}">Reset</a>
+    </form>
 
     <p><a href="{{ route('rw.rt.create') }}">+ Tambah RT</a></p>
 
@@ -15,9 +19,9 @@
         <tr>
             <th>No</th><th>RW</th><th>Nama RT</th><th>Aksi</th>
         </tr>
-        @foreach ($rt as $i => $r)
+        @forelse ($rt as $i => $r)
             <tr>
-                <td>{{ $i + 1 }}</td>
+                <td>{{ $rt->firstItem() + $i }}</td>
                 <td>{{ $r->rw->nama_rw ?? '-' }}</td>
                 <td>{{ $r->nama_rt }}</td>
                 <td>
@@ -28,7 +32,12 @@
                     </form>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr><td colspan="4">Tidak ada data.</td></tr>
+        @endforelse
     </table>
+
+    <br>
+    {{ $rt->links() }}
 </body>
 </html>

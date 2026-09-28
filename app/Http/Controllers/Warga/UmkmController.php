@@ -14,8 +14,21 @@ class UmkmController extends Controller
     public function index()
     {
         $warga = Auth::user()->warga;
-        $umkm = Umkm::with('kategori')->where('warga_id', $warga->id)->latest()->get();
-        return view('warga.umkm.index', compact('umkm'));
+        
+        $query = Umkm::with('kategori') 
+            ->where('warga_id', $warga->id);
+
+            if ($request->filled('search')) {
+                $query->where('nama_usaha', 'like', '%' . $request->search . '%');
+            }
+
+            if ($request->filled('status')) {
+                $query->where('status', $request->status);
+            }
+
+        $umkm = $query->latest()->paginate(20)->withQueryString();
+
+        return view('warga.umkm.inddex', compact('umkm'));
     }
 
     public function create()

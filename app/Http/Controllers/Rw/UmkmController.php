@@ -11,6 +11,7 @@ class UmkmController extends Controller
     public function index(Request $request)
     {
         $query = Umkm::with(['kategori', 'warga.rt']);
+
         if ($request->filled('search')) {
             $query->where('nama_usaha', 'like', '%' . $request->search . '%');
         }

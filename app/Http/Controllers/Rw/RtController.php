@@ -12,6 +12,7 @@ class RtController extends Controller
     public function index(Request $request)
     {
         $query = Rt::with('rw');
+
         if ($request->filled('search')) {
             $query->where('nama_rt', 'like', '%' . $request->search . '%');
         }

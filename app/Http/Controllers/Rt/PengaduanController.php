@@ -23,12 +23,21 @@ class PengaduanController extends Controller
         return $rt;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $rt = $this->getRt();
-        $pengaduan = Pengaduan::with(['kategori', 'warga'])
-            ->where('rt_id', $rt->id)
-            ->latest()->get();
+        $query = Pengaduan::with(['kategori', 'warga'])
+            ->where('rt_id', $rt->id);
+
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $pengaduan = $query->latest()->paginate(20)->withQueryString();
 
         return view('rt.pengaduan.index', compact('pengaduan'));
     }

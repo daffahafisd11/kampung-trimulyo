@@ -16,7 +16,9 @@
     <ul>
         <li><a href="{{ route('warga.pengaduan.index') }}">Pengaduan Saya</a></li>
         <li><a href="{{ route('warga.umkm.index') }}">UMKM Saya</a></li>
+        <li><a href="{{ route('warga.kas.index') }}">Kas RT</a></li>
         <li><a href="{{ route('warga.profile.edit') }}">Profil Saya</a></li>
+        <li><a href="{{ route('profile.change-password') }}">🔒 Ganti Password</a></li>
     </ul>
 
     <h2>Statistik</h2>

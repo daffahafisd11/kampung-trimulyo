@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ProfileController;
 
 // Controller RW
 use App\Http\Controllers\Rw\RtController;
@@ -48,6 +49,11 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/change-password', [ProfileController::class, 'showChangePassword'])->name('profile.change-password');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password.update');
+});
 
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
