@@ -1,6 +1,7 @@
 
 ```
 kampung-trimulyo
+├─ 'maya.warga@gmail.com'
 ├─ .claude
 │  └─ skills
 │     ├─ deploying-to-cloud
@@ -82,37 +83,12 @@ kampung-trimulyo
 │  │  │     ├─ PengaduanController.php
 │  │  │     ├─ ProfileController.php
 │  │  │     └─ UmkmController.php
-│  │  ├─ Controllers_backup
-│  │  │  ├─ AuthController.php
-│  │  │  ├─ Bendahara
-│  │  │  │  └─ KasController.php
-│  │  │  ├─ Controller.php
-│  │  │  ├─ DashboardController.php
-│  │  │  ├─ Rt
-│  │  │  │  ├─ InformasiController.php
-│  │  │  │  ├─ KasController.php
-│  │  │  │  ├─ KegiatanController.php
-│  │  │  │  ├─ PengaduanController.php
-│  │  │  │  └─ UmkmController.php
-│  │  │  ├─ Rw
-│  │  │  │  ├─ BendaharaController.php
-│  │  │  │  ├─ InformasiController.php
-│  │  │  │  ├─ KasController.php
-│  │  │  │  ├─ KategoriPengaduanController.php
-│  │  │  │  ├─ KategoriUmkmController.php
-│  │  │  │  ├─ KegiatanController.php
-│  │  │  │  ├─ PengaduanController.php
-│  │  │  │  ├─ RtController.php
-│  │  │  │  ├─ UmkmController.php
-│  │  │  │  └─ WargaController.php
-│  │  │  └─ Warga
-│  │  │     ├─ KasController.php
-│  │  │     ├─ PengaduanController.php
-│  │  │     ├─ ProfileController.php
-│  │  │     └─ UmkmController.php
 │  │  └─ Middleware
 │  │     ├─ BendaharaMiddleware.php
 │  │     └─ RoleMiddleware.php
+│  ├─ Mail
+│  │  ├─ InformasiBaruMail.php
+│  │  └─ KegiatanBaruMail.php
 │  ├─ Models
 │  │  ├─ Informasi.php
 │  │  ├─ KasRt.php
@@ -205,8 +181,13 @@ kampung-trimulyo
 │     │  ├─ rt.blade.php
 │     │  ├─ rw.blade.php
 │     │  └─ warga.blade.php
+│     ├─ emails
+│     │  ├─ informasi-baru.blade.php
+│     │  └─ kegiatan-baru.blade.php
 │     ├─ landing
 │     │  └─ index.blade.php
+│     ├─ profile
+│     │  └─ change-password.blade.php
 │     ├─ rt
 │     │  ├─ informasi
 │     │  │  ├─ create.blade.php
@@ -282,21 +263,22 @@ kampung-trimulyo
 │  │  ├─ private
 │  │  └─ public
 │  │     ├─ informasi
+│  │     │  ├─ DnGSnQXbEur4gNWhYvcIw39yQMZ7gr6fa64vQKHe.png
+│  │     │  ├─ FzR9BPGZIpsX1n6EFM5yZV77H5oh3gEDmfgvuaDO.png
 │  │     │  ├─ k0UkisVkvcxumuk9Cxl4B699XAplv5eFLw19kaPZ.png
+│  │     │  ├─ mBOpnQ36Kgr1qiYgwTtTwyYhYMvDonfg59vmMcpG.png
 │  │     │  └─ PjkBnr5toXVHe1ADIL6h8Tah86nVZQBDsH3YXuQ8.png
+│  │     ├─ kegiatan
+│  │     │  └─ 9u94wt2yt9o8rUPWGJwAeQ4FPYBTCKjeyLtx4gF3.png
 │  │     └─ pengaduan
 │  │        └─ t5l2KNoBhER5bNXnxXGnK4frJql86jv6Ne4v7d2Y.jpg
 │  ├─ framework
 │  │  ├─ cache
 │  │  │  └─ data
-│  │  │     └─ 4e
-│  │  │        └─ 18
-│  │  │           └─ 4e18ccffee89601de00d0fa070496d7edb1a9fe3
 │  │  ├─ sessions
-│  │  │  ├─ BUPfw0FMgt23Cu5mziap9MHWmr9O51nU1aVFDYwt
-│  │  │  ├─ ChGYw59hjNhaMiQXIowura4VizZJU3oj8bJkGErx
-│  │  │  ├─ LVWa0Z27z6MIOBhja8BiQ7zYOQMA5k3vG6gFFbH6
-│  │  │  └─ WXgVGgxEi6Z2IlO3imAnnCMmTNtIH1Zj9kVC9kGZ
+│  │  │  ├─ 9ZF0okKaVu5mg8U2hbqLulDzWwiY5W8EW74wFsxA
+│  │  │  ├─ a9lPsFdw0Mur4N6QHoKggEDb5btYCHeU4S1ClXrj
+│  │  │  └─ BUPfw0FMgt23Cu5mziap9MHWmr9O51nU1aVFDYwt
 │  │  ├─ testing
 │  │  │  └─ disks
 │  │  │     └─ public
@@ -304,13 +286,13 @@ kampung-trimulyo
 │  │  │           └─ yfI8aCT1qs38CacSzON0PPhMZLooFeXO4WmyI1yl.jpg
 │  │  └─ views
 │  │     ├─ 145b603705cd95abc90ba7c8b8355118.php
-│  │     ├─ 3a35bee859bf837443cf6d729403e335.php
 │  │     ├─ 3d3ac016d3010f66aa4c3616762a488c.php
 │  │     ├─ 50c0dfd226ad3d178c0d0112a748179f.php
-│  │     ├─ 6daaf98ddea011b0196e75332e04fcac.php
+│  │     ├─ 6fbab89165b375ee901bd494dfa12827.php
 │  │     ├─ 90b886785ffdb3b857bfb990604db490.php
-│  │     ├─ 922cb54ca8a0315f8657f7b0c9f9b338.php
-│  │     ├─ a6086a519b71f687475c6b665d6ec3ad.php
+│  │     ├─ 9c149e6b68000682aa4b5590a9ef8464.php
+│  │     ├─ b779f5492cbe0e83fc2346299c735858.php
+│  │     ├─ c3a9c8d62165705e300adaba1491ae7a.php
 │  │     └─ cfe3e0c29205047a2e7accd7baafaff2.php
 │  └─ logs
 ├─ tests
