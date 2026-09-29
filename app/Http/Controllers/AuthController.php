@@ -48,8 +48,8 @@ class AuthController extends Controller
 
         return match ($user->role) {
             'rw' => redirect()->route('rw.dashboard'),
-            'rt' => redirect()->route('rt.dashbaord'),
-            'warga' => redirect()->route('warga.dashboard'),
+            'rt' => redirect()->route('rt.dashboard'),
+            'warga' => redirect()->route('warga.dashboagittrd'),
             default => redirect()->route('login'),
         };
     }
