@@ -6,14 +6,29 @@
     <p><a href="{{ route('rt.pengaduan.index') }}">← Kembali</a></p>
 
     @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
-    @if ($errors->any()) <div style="color:red">@foreach ($errors->all() as $e) <p>{{ $e }}</p> @endforeach</div> @endif
+    @if ($errors->any())
+        <div style="color:red">@foreach ($errors->all() as $e) <p>{{ $e }}</p> @endforeach</div>
+    @endif
 
     <table border="1" cellpadding="8">
-        <tr><td>Warga</td><td>{{ $pengaduan->warga->nama_lengkap }}</td></tr>
+        <tr><td>Warga</td><td>{{ $pengaduan->warga->nama_lengkap ?? '-' }}</td></tr>
         <tr><td>Judul</td><td>{{ $pengaduan->judul }}</td></tr>
-        <tr><td>Kategori</td><td>{{ $pengaduan->kategori->nama_kategori }}</td></tr>
+        <tr><td>Kategori</td><td>{{ $pengaduan->kategori->nama_kategori ?? '-' }}</td></tr>
         <tr><td>Lokasi</td><td>{{ $pengaduan->lokasi }}</td></tr>
         <tr><td>Deskripsi</td><td>{{ $pengaduan->deskripsi }}</td></tr>
+
+        {{-- GAMBAR --}}
+        <tr>
+            <td>Foto</td>
+            <td>
+                @if ($pengaduan->foto)
+                    <img src="{{ asset('storage/' . $pengaduan->foto) }}" width="300" style="border:1px solid #ccc;">
+                @else
+                    <i>Tidak ada foto</i>
+                @endif
+            </td>
+        </tr>
+
         <tr><td>Status</td><td>{{ $pengaduan->status }}</td></tr>
         <tr><td>Catatan</td><td>{{ $pengaduan->catatan ?? '-' }}</td></tr>
     </table>

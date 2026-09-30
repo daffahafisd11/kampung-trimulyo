@@ -15,12 +15,13 @@
     <h2>Menu</h2>
     <ul>
         <li><a href="{{ route('rw.rt.index') }}">Data RT</a></li>
+        <li><a href="{{ route('rw.akun-rt.index') }}">Akun RT</a></li>
+        <li><a href="{{ route('rw.kas.index') }}">Kas Semua RT</a></li>
         <li><a href="{{ route('rw.warga.index') }}">Data Warga</a></li>
         <li><a href="{{ route('rw.kategori-pengaduan.index') }}">Kategori Pengaduan</a></li>
         <li><a href="{{ route('rw.kategori-umkm.index') }}">Kategori UMKM</a></li>
         <li><a href="{{ route('rw.pengaduan.index') }}">Semua Pengaduan</a></li>
         <li><a href="{{ route('rw.umkm.index') }}">Semua UMKM</a></li>
-        <li><a href="{{ route('rw.kas.index') }}">Kas Semua RT</a></li>
         <li><a href="{{ route('rw.bendahara.index') }}">Kelola Bendahara</a></li>
         <li><a href="{{ route('rw.informasi.index') }}">Informasi</a></li>
         <li><a href="{{ route('rw.kegiatan.index') }}">Kegiatan</a></li>

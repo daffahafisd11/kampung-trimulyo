@@ -20,6 +20,7 @@
         <li><a href="{{ route('rt.kas.index') }}">Kas RT</a></li>
         <li><a href="{{ route('rt.informasi.index') }}">Informasi</a></li>
         <li><a href="{{ route('rt.kegiatan.index') }}">Kegiatan</a></li>
+        <li><a href="{{ route('rt.warga.index') }}">Data Warga</a></li>
         <li><a href="{{ route('profile.change-password') }}">🔒 Ganti Password</a></li>
     </ul>
 

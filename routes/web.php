@@ -17,6 +17,7 @@ use App\Http\Controllers\Rw\InformasiController as RwInformasiController;
 use App\Http\Controllers\Rw\KegiatanController as RwKegiatanController;
 use App\Http\Controllers\Rw\KasController as RwKasController;
 use App\Http\Controllers\Rw\BendaharaController as RwBendaharaController;
+use App\Http\Controllers\Rw\AkunRtController;
 
 // Controller RT
 use App\Http\Controllers\Rt\PengaduanController as RtPengaduanController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Rt\UmkmController as RtUmkmController;
 use App\Http\Controllers\Rt\InformasiController as RtInformasiController;
 use App\Http\Controllers\Rt\KegiatanController as RtKegiatanController;
 use App\Http\Controllers\Rt\KasController as RtKasController;
+use App\Http\Controllers\Rt\WargaController as RtWargaController;
 
 // Controller Bendahara
 use App\Http\Controllers\Bendahara\KasController as BendaharaKasController;
@@ -93,6 +95,13 @@ Route::middleware(['auth', 'role:rw'])->prefix('rw')->name('rw.')->group(functio
     Route::get('/bendahara', [RwBendaharaController::class, 'index'])->name('bendahara.index');
     Route::get('/bendahara/{rt}/edit', [RwBendaharaController::class, 'edit'])->name('bendahara.edit');
     Route::put('/bendahara/{rt}', [RwBendaharaController::class, 'update'])->name('bendahara.update');
+
+    Route::get('/akun-rt', [AkunRtController::class, 'index'])->name('akun-rt.index');
+    Route::get('/akun-rt/{user}/edit', [AkunRtController::class, 'edit'])->name('akun-rt.edit');
+    Route::put('/akun-rt/{user}', [AkunRtController::class, 'update'])->name('akun-rt.update');
+    Route::get('/akun-rt/{user}/reset-password', [AkunRtController::class, 'showResetPassword'])->name('akun-rt.reset-password');
+    Route::post('/akun-rt/{user}/reset-password', [AkunRtController::class, 'resetPassword'])->name('akun-rt.reset-password.update');
+
 });
 
 
@@ -122,6 +131,8 @@ Route::middleware(['auth', 'role:rt'])->prefix('rt')->name('rt.')->group(functio
 
     // ==================== KAS RT (RT lihat kas RT sendiri) ====================
     Route::get('/kas', [RtKasController::class, 'index'])->name('kas.index');
+
+    Route::get('/warga', [RtWargaController::class, 'index'])->name('warga.index');
 });
 
 
