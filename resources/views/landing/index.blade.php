@@ -30,6 +30,11 @@
             .xs\:block { display: block !important; }
             .xs\:hidden { display: none !important; }
         }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
     </style>
 
     <script>
@@ -52,18 +57,13 @@
                 shadow-[0_8px_30px_rgba(0,0,0,0.06)]
                 transition-all duration-200">
 
-        <div class="px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2">
+        <div class="px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
 
-            {{-- Brand --}}
-            <a href="#hero" class="flex items-center gap-2 shrink-0 min-w-0">
-                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-sage-800 dark:bg-sage-500
-                            flex items-center justify-center
-                            text-white text-[10px] sm:text-xs font-bold shrink-0">
-                    KT
-                </div>
-                <span class="hidden xs:block text-[13px] sm:text-sm font-semibold truncate">
-                    {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}
-                </span>
+            {{-- Brand dengan LOGO HORIZONTAL --}}
+            <a href="#hero" class="flex items-center shrink-0 min-w-0">
+                <img src="{{ asset('storage/logo/logo.png') }}"
+                     alt="Logo {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}"
+                     class="h-8 sm:h-9 w-auto max-w-[130px] sm:max-w-[180px] object-contain">
             </a>
 
             {{-- Desktop Menu --}}
@@ -120,7 +120,7 @@
             </div>
         </div>
 
-        {{-- Mobile Menu (di dalam navbar, bukan fixed) --}}
+        {{-- Mobile Menu --}}
         <div id="mobileMenu" class="hidden lg:hidden border-t border-black/5 dark:border-white/5 px-3 py-2">
             <a href="#hero" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">Beranda</a>
             <a href="#tentang" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">Tentang</a>
@@ -140,7 +140,7 @@
     {{-- ==================== HERO ==================== --}}
     <header id="hero" class="relative min-h-[100svh] flex items-end pt-24 sm:pt-32 pb-16 overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80"
+            <img src="{{ asset('storage/hero/back.jpg') }}"
                  alt="Kampung Trimulyo"
                  class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-b from-ink-900/30 via-ink-900/60 to-ink-900/95"></div>
@@ -541,12 +541,10 @@
         <div class="container-fluid py-12 sm:py-16">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-10">
                 <div class="md:col-span-5">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-9 h-9 rounded-full bg-sage-800 dark:bg-sage-500 flex items-center justify-center text-white text-xs font-bold">KT</div>
-                        <div>
-                            <div class="text-fluid-sm font-semibold">{{ $rw->nama_rw ?? 'Kampung Trimulyo' }}</div>
-                            <div class="text-[10px] text-ink-500 dark:text-ink-400 uppercase tracking-widest">Kampung Digital</div>
-                        </div>
+                    <div class="mb-4">
+                        <img src="{{ asset('storage/logo/logo.png') }}"
+                             alt="Logo {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}"
+                             class="h-10 w-auto max-w-[200px] object-contain">
                     </div>
                     <p class="text-fluid-sm text-ink-500 dark:text-ink-400 max-w-sm leading-relaxed">
                         Sistem informasi kampung digital untuk warga {{ $rw->nama_rw ?? 'RW 02' }}.
@@ -624,13 +622,6 @@
         </div>
     </div>
 
-    <style>
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
-    </style>
-
     {{-- ==================== SCRIPT ==================== --}}
     <script>
         function toggleTheme() {
@@ -639,7 +630,6 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
-        const navbar = document.getElementById('navbar');
         const backToTop = document.getElementById('backToTop');
 
         window.addEventListener('scroll', () => {
@@ -650,7 +640,6 @@
             }
         }, { passive: true });
 
-        // Mobile menu
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
             const iconHamburger = document.getElementById('iconHamburger');
@@ -685,7 +674,6 @@
             el.scrollBy({ left: dir * step, behavior: 'smooth' });
         }
 
-        // Drag scroll
         document.querySelectorAll('.h-scroll').forEach(slider => {
             let isDown = false, startX = 0, scrollLeftStart = 0, moved = false;
 
@@ -776,7 +764,6 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // Counter
         const counters = document.querySelectorAll('.counter');
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
