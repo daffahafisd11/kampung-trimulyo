@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rw;
 use App\Models\Rt;
+use App\Models\Warga;
 use App\Models\Informasi;
 use App\Models\Kegiatan;
 use App\Models\Umkm;
@@ -13,7 +14,6 @@ class LandingController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil parameter search terpisah
         $searchInformasi = $request->input('search_informasi');
         $searchKegiatan  = $request->input('search_kegiatan');
         $searchUmkm      = $request->input('search_umkm');
@@ -22,7 +22,13 @@ class LandingController extends Controller
         $rw = Rw::first();
         $rt = Rt::orderBy('nama_rt')->get();
 
-        // ==================== INFORMASI ====================
+        // Statistik (spesifik dari database)
+        $totalWarga = Warga::count();
+        $totalUmkm  = Umkm::where('status', 'disetujui')->count();
+        $totalInfo  = Informasi::where('status', 'dipublikasikan')->count();
+        $totalRt    = $rt->count();
+
+        // Informasi
         $informasiQuery = Informasi::with('user')
             ->where('status', 'dipublikasikan');
 
@@ -35,7 +41,7 @@ class LandingController extends Controller
 
         $informasi = $informasiQuery->latest()->get();
 
-        // ==================== KEGIATAN ====================
+        // Kegiatan
         $kegiatanQuery = Kegiatan::with('user')
             ->where('status', 'aktif');
 
@@ -49,7 +55,7 @@ class LandingController extends Controller
 
         $kegiatan = $kegiatanQuery->orderBy('tanggal', 'desc')->get();
 
-        // ==================== UMKM ====================
+        // UMKM
         $umkmQuery = Umkm::with(['kategori', 'warga.rt'])
             ->where('status', 'disetujui');
 
@@ -71,7 +77,11 @@ class LandingController extends Controller
             'umkm',
             'searchInformasi',
             'searchKegiatan',
-            'searchUmkm'
+            'searchUmkm',
+            'totalWarga',
+            'totalUmkm',
+            'totalInfo',
+            'totalRt'
         ));
     }
 }
