@@ -13,6 +13,9 @@
     <p>
         <a href="{{ route('profile.change-password') }}">🔒 Ganti Password</a>
     </p>
+    <p>
+        <a href="{{ route('landing') }}">← Lihat Landing Page</a>
+    </p>
 
     <hr>
 

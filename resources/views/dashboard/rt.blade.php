@@ -15,6 +15,7 @@
 
     <h2>Menu</h2>
     <ul>
+        <li><a href="{{ route('landing') }}">Landing Page</a></li>
         <li><a href="{{ route('rt.pengaduan.index') }}">Pengaduan Masuk</a></li>
         <li><a href="{{ route('rt.umkm.index') }}">UMKM</a></li>
         <li><a href="{{ route('rt.kas.index') }}">Kas RT</a></li>

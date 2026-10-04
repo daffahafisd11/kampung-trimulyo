@@ -18,7 +18,7 @@
 
     <h2>Menu</h2>
     <ul>
-        {{-- Menu untuk semua warga --}}
+        <li><a href="{{ route('landing') }}">Landing Page</a></li>
         <li><a href="{{ route('warga.pengaduan.index') }}">Pengaduan Saya</a></li>
         <li><a href="{{ route('warga.umkm.index') }}">UMKM Saya</a></li>
         <li><a href="{{ route('warga.kas.index') }}">Kas RT</a></li>

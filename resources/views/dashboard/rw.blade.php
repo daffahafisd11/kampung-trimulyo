@@ -14,6 +14,7 @@
 
     <h2>Menu</h2>
     <ul>
+        <li><a href="{{ route('landing') }}">Landing Page</a></li>
         <li><a href="{{ route('rw.rt.index') }}">Data RT</a></li>
         <li><a href="{{ route('rw.akun-rt.index') }}">Akun RT</a></li>
         <li><a href="{{ route('rw.kas.index') }}">Kas Semua RT</a></li>
