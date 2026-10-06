@@ -164,9 +164,6 @@ kampung-trimulyo
 ├─ public
 │  ├─ .htaccess
 │  ├─ favicon.ico
-│  ├─ images
-│  │  ├─ hero-bg.jpg
-│  │  └─ logo.png
 │  ├─ index.php
 │  └─ robots.txt
 ├─ README.md
@@ -293,7 +290,7 @@ kampung-trimulyo
 │  │     │  ├─ BUdzlgS3KWh348gA8W2KkD7ZjIkFGbJSQvgcVILh.png
 │  │     │  └─ zCcOjeL7hdz6BCQ0YhoMFzVsQPww2TFvkIJxiOZB.png
 │  │     ├─ logo
-│  │     │  └─ logo.png
+│  │     │  └─ trimulyo.png
 │  │     ├─ pengaduan
 │  │     │  ├─ 29veYhadZA1gzaRYooPhC2QAbQcoDe5nAv5lpSMn.png
 │  │     │  ├─ Hwn9zWGhkGsRJhPb792NMzVW9ysbNFM41hX8LN4k.png
@@ -306,7 +303,7 @@ kampung-trimulyo
 │  │  ├─ cache
 │  │  │  └─ data
 │  │  ├─ sessions
-│  │  │  └─ jlQyoLCarE2AH9Y0mrC4QwtuEHRjC85Ribl7MICB
+│  │  │  └─ fuf4KMihlB7ztQriiRccZJK9SDUCcestDATaLEkG
 │  │  ├─ testing
 │  │  │  └─ disks
 │  │  │     └─ public
