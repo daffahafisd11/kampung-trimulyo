@@ -35,6 +35,147 @@
             from { opacity: 0; transform: scale(0.98); }
             to { opacity: 1; transform: scale(1); }
         }
+
+        /* ==================== NAVBAR GLASSMORPHISM ==================== */
+        .glass-navbar {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dark .glass-navbar {
+            background: rgba(30, 32, 34, 0.4);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* Saat scroll — navbar lebih solid supaya text terbaca */
+        .glass-navbar.scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            box-shadow:
+                0 12px 40px rgba(0, 0, 0, 0.12),
+                0 4px 12px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .dark .glass-navbar.scrolled {
+            background: rgba(30, 32, 34, 0.65);
+            border: 1.5px solid rgba(255, 255, 255, 0.22);
+            box-shadow:
+                0 12px 40px rgba(0, 0, 0, 0.5),
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        }
+
+        /* ==================== CARD CARD-EDITORIAL (untuk section) ==================== */
+        .card-clean {
+            background: #ffffff;
+            box-shadow:
+                0 1px 3px rgba(90, 106, 74, 0.04),
+                0 4px 24px rgba(90, 106, 74, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(90, 106, 74, 0.04);
+        }
+
+        .dark .card-clean {
+            background: #1e2022;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .card-clean:hover {
+            box-shadow:
+                0 2px 6px rgba(90, 106, 74, 0.06),
+                0 20px 40px rgba(90, 106, 74, 0.12);
+            transform: translateY(-4px);
+            border-color: rgba(138, 154, 122, 0.15);
+        }
+
+        .dark .card-clean:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        /* ==================== H-SCROLL ==================== */
+        .h-scroll {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 0.5rem;
+            cursor: grab;
+        }
+        .h-scroll::-webkit-scrollbar { display: none; }
+        .h-scroll:active { cursor: grabbing; }
+        .h-scroll > * { scroll-snap-align: start; flex-shrink: 0; }
+
+        /* ==================== DIVIDER ==================== */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.06), transparent);
+        }
+        .dark .divider {
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.06), transparent);
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-slide-up {
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-100 { animation-delay: 0.1s; opacity: 0; }
+        .delay-200 { animation-delay: 0.2s; opacity: 0; }
+        .delay-300 { animation-delay: 0.3s; opacity: 0; }
+        .delay-400 { animation-delay: 0.4s; opacity: 0; }
+
+        /* ==================== THEME TOGGLE ROTATE ==================== */
+        @keyframes rotateIcon {
+            from { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.15); }
+            to { transform: rotate(360deg) scale(1); }
+        }
+
+        .theme-toggle-rotate {
+            animation: rotateIcon 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==================== LINE CLAMP ==================== */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
 
     <script>
@@ -46,41 +187,38 @@
 </head>
 <body class="text-ink-900 dark:text-ink-100 antialiased">
 
-    {{-- ==================== NAVBAR ==================== --}}
+    {{-- ==================== NAVBAR GLASSMORPHISM ==================== --}}
     <nav id="navbar"
             class="fixed top-3 left-1/2 -translate-x-1/2 z-50
                 w-[calc(100%-1.5rem)] max-w-5xl
                 rounded-3xl
-                bg-white/95 dark:bg-ink-800/95
-                backdrop-blur-md
-                border border-black/5 dark:border-white/5
-                shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                glass-navbar">
 
         <div class="px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
 
             {{-- Brand --}}
             <a href="#hero" class="flex items-center shrink-0 min-w-0">
-                <img src="{{ asset('storage/logo/logo.png') }}"
+                <img src="{{ asset('storage/logo/trimulyo.png') }}"
                         alt="Logo {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}"
-                        class="h-8 sm:h-9 w-auto max-w-[130px] sm:max-w-[180px] object-contain">
+                        class="h-9 sm:h-10 w-auto max-w-[120px] sm:max-w-[160px] object-contain"
             </a>
 
             {{-- Desktop Menu --}}
             <div class="hidden lg:flex items-center gap-0.5">
-                <a href="#hero" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-ink-50 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">Beranda</a>
-                <a href="#tentang" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-ink-50 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">Tentang</a>
-                <a href="#layanan" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-ink-50 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">Layanan</a>
+                <a href="#hero" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:text-ink-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors">Beranda</a>
+                <a href="#tentang" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:text-ink-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors">Tentang</a>
+                <a href="#layanan" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:text-ink-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors">Layanan</a>
                 @if ($isLoggedIn)
-                    <a href="#informasi" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-ink-50 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">Informasi</a>
-                    <a href="#kegiatan" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-ink-50 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">Kegiatan</a>
+                    <a href="#informasi" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:text-ink-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors">Informasi</a>
+                    <a href="#kegiatan" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:text-ink-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors">Kegiatan</a>
                 @endif
-                <a href="#umkm" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-ink-50 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">UMKM</a>
+                <a href="#umkm" class="px-3 py-2 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:text-ink-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors">UMKM</a>
 
-                <div class="w-px h-5 bg-ink-200 dark:bg-white/10 mx-1"></div>
+                <div class="w-px h-5 bg-ink-300/50 dark:bg-white/15 mx-1"></div>
 
-                <button onclick="toggleTheme()"
+                <button onclick="toggleTheme(this)"
                         aria-label="Toggle tema"
-                        class="w-9 h-9 rounded-full flex items-center justify-center text-ink-500 dark:text-ink-400 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">
+                        class="theme-toggle-btn w-9 h-9 rounded-full flex items-center justify-center text-ink-600 dark:text-ink-300 hover:bg-white/50 dark:hover:bg-white/10 transition-colors">
                     <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
                     </svg>
@@ -104,9 +242,9 @@
 
             {{-- Mobile Buttons --}}
             <div class="lg:hidden flex items-center gap-0.5">
-                <button onclick="toggleTheme()"
+                <button onclick="toggleTheme(this)"
                         aria-label="Toggle tema"
-                        class="w-9 h-9 rounded-full flex items-center justify-center text-ink-500 dark:text-ink-400 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">
+                        class="theme-toggle-btn w-9 h-9 rounded-full flex items-center justify-center text-ink-600 dark:text-ink-300 hover:bg-white/50 dark:hover:bg-white/10 transition-colors">
                     <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
                     </svg>
@@ -117,7 +255,7 @@
 
                 <button onclick="toggleMobileMenu()"
                         aria-label="Menu"
-                        class="w-9 h-9 rounded-full flex items-center justify-center text-ink-500 dark:text-ink-400 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors">
+                        class="w-9 h-9 rounded-full flex items-center justify-center text-ink-600 dark:text-ink-300 hover:bg-white/50 dark:hover:bg-white/10 transition-colors">
                     <svg id="iconHamburger" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -129,17 +267,17 @@
         </div>
 
         {{-- Mobile Menu --}}
-        <div id="mobileMenu" class="hidden lg:hidden border-t border-black/5 dark:border-white/5 px-3 py-2">
-            <a href="#hero" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">Beranda</a>
-            <a href="#tentang" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">Tentang</a>
-            <a href="#layanan" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">Layanan</a>
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-white/30 dark:border-white/10 px-3 py-2">
+            <a href="#hero" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:bg-white/50 dark:hover:bg-white/10 transition-colors" onclick="closeMobileMenu()">Beranda</a>
+            <a href="#tentang" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:bg-white/50 dark:hover:bg-white/10 transition-colors" onclick="closeMobileMenu()">Tentang</a>
+            <a href="#layanan" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:bg-white/50 dark:hover:bg-white/10 transition-colors" onclick="closeMobileMenu()">Layanan</a>
             @if ($isLoggedIn)
-                <a href="#informasi" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">Informasi</a>
-                <a href="#kegiatan" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">Kegiatan</a>
+                <a href="#informasi" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:bg-white/50 dark:hover:bg-white/10 transition-colors" onclick="closeMobileMenu()">Informasi</a>
+                <a href="#kegiatan" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:bg-white/50 dark:hover:bg-white/10 transition-colors" onclick="closeMobileMenu()">Kegiatan</a>
             @endif
-            <a href="#umkm" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-white/5 transition-colors" onclick="closeMobileMenu()">UMKM</a>
+            <a href="#umkm" class="block px-4 py-3 rounded-xl text-sm font-medium text-ink-700 dark:text-ink-200 hover:bg-white/50 dark:hover:bg-white/10 transition-colors" onclick="closeMobileMenu()">UMKM</a>
 
-            <div class="h-px bg-black/5 dark:bg-white/5 my-2 mx-4"></div>
+            <div class="h-px bg-white/30 dark:bg-white/10 my-2 mx-4"></div>
 
             @if ($isLoggedIn)
                 <a href="{{ url('/' . Auth::user()->role . '/dashboard') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold text-center bg-ink-900 dark:bg-sage-500 text-white dark:text-ink-900" onclick="closeMobileMenu()">
@@ -164,7 +302,7 @@
 
         <div class="relative z-10 container-fluid w-full">
             <div class="max-w-4xl">
-                <div class="inline-flex items-center gap-2 mb-5 sm:mb-8">
+                <div class="inline-flex items-center gap-2 mb-5 sm:mb-8 animate-slide-up">
                     <span class="relative flex h-1.5 w-1.5">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sage-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-sage-400"></span>
@@ -172,15 +310,15 @@
                     <span class="text-fluid-xs font-medium text-white/80 uppercase tracking-[0.2em]">Kampung Digital · {{ $rw->nama_rw ?? 'RW 02' }}</span>
                 </div>
 
-                <h1 class="font-serif text-fluid-6xl leading-[0.95] tracking-tight mb-5 sm:mb-6 text-white">
+                <h1 class="font-serif text-fluid-6xl leading-[0.95] tracking-tight mb-5 sm:mb-6 text-white animate-slide-up delay-100">
                     {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}
                 </h1>
 
-                <p class="text-fluid-lg text-white/80 max-w-2xl leading-relaxed mb-8 sm:mb-10">
+                <p class="text-fluid-lg text-white/80 max-w-2xl leading-relaxed mb-8 sm:mb-10 animate-slide-up delay-200">
                     Portal informasi dan kegiatan warga. Satu tempat untuk pengumuman, agenda, dan UMKM kampung.
                 </p>
 
-                <div class="flex flex-wrap gap-3 mb-12 sm:mb-16">
+                <div class="flex flex-wrap gap-3 mb-12 sm:mb-16 animate-slide-up delay-300">
                     <a href="#tentang"
                         class="inline-flex items-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-white text-ink-900 text-fluid-sm font-semibold hover:bg-ink-100 transition-colors">
                         Kenali Kami
@@ -195,9 +333,8 @@
                 </div>
             </div>
 
-            {{-- Statistik — hanya kalau login --}}
             @if ($isLoggedIn)
-                <div class="pt-6 sm:pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                <div class="pt-6 sm:pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 animate-slide-up delay-400">
                     <div>
                         <div class="font-serif text-fluid-4xl text-white mb-1">{{ $totalRt }}</div>
                         <div class="text-fluid-xs uppercase tracking-[0.2em] text-white/50">Wilayah RT</div>
@@ -224,6 +361,7 @@
         <div class="container-fluid">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
                 <div class="lg:col-span-5">
+                    <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">01 — Tentang</div>
                     <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight mb-6">
                         Selamat datang di<br>
                         <span class="text-sage-700 dark:text-sage-400">{{ $rw->nama_rw ?? 'Kampung Trimulyo' }}</span>
@@ -289,6 +427,7 @@
     <section id="layanan" class="py-16 sm:py-24 lg:py-32 bg-ink-50 dark:bg-[#131313] scroll-mt-24">
         <div class="container-fluid">
             <div class="mb-12 sm:mb-16">
+                <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">02 — Layanan</div>
                 <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight max-w-3xl">Apa yang kami sediakan</h2>
             </div>
 
@@ -331,6 +470,7 @@
             <div class="container-fluid">
                 <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-14">
                     <div>
+                        <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">03 — Informasi</div>
                         <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight">Informasi terbaru</h2>
                     </div>
                     <form method="GET" action="{{ route('landing') }}#informasi" class="flex-shrink-0">
@@ -339,7 +479,7 @@
                                 <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
                             </svg>
                             <input type="text" name="search_informasi" placeholder="Cari informasi..." value="{{ $searchInformasi }}"
-                                    class="pl-10 pr-4 py-2.5 w-full sm:w-64 rounded-full bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 text-fluid-sm focus:outline-none focus:border-sage-500 transition-colors">
+                                class="pl-10 pr-4 py-2.5 w-full sm:w-64 rounded-full bg-white dark:bg-ink-800 border border-ink-200 dark:border-ink-700 text-fluid-sm focus:outline-none focus:border-sage-500 transition-colors">
                         </div>
                     </form>
                 </div>
@@ -367,12 +507,12 @@
                                     data-isi="{{ $info->isi }}"
                                     data-gambar="{{ $info->gambar ? asset('storage/' . $info->gambar) : '' }}"
                                     data-meta=""
-                                    class="w-[80vw] xs:w-[75vw] sm:w-[360px] md:w-[380px] lg:w-[400px] card-editorial rounded-2xl overflow-hidden cursor-pointer card-clickable">
+                                    class="w-[80vw] xs:w-[75vw] sm:w-[360px] md:w-[380px] lg:w-[400px] card-clean rounded-2xl overflow-hidden cursor-pointer card-clickable">
                                     @if ($info->gambar)
                                         <div class="aspect-[4/3] overflow-hidden bg-ink-100 dark:bg-ink-800">
                                             <img src="{{ asset('storage/' . $info->gambar) }}"
-                                                    class="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500"
-                                                    draggable="false" alt="{{ $info->judul }}" loading="lazy">
+                                                class="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500"
+                                                draggable="false" alt="{{ $info->judul }}" loading="lazy">
                                         </div>
                                     @else
                                         <div class="aspect-[4/3] bg-gradient-to-br from-sage-100 to-sage-200 dark:from-sage-900/40 dark:to-sage-800/20 flex items-center justify-center">
@@ -405,6 +545,7 @@
             <div class="container-fluid">
                 <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-14">
                     <div>
+                        <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">04 — Kegiatan</div>
                         <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight">Agenda kampung</h2>
                     </div>
                     <form method="GET" action="{{ route('landing') }}#kegiatan" class="flex-shrink-0">
@@ -441,12 +582,12 @@
                                     data-isi="{{ $k->deskripsi }}"
                                     data-gambar="{{ $k->gambar ? asset('storage/' . $k->gambar) : '' }}"
                                     data-meta="{{ $k->lokasi }}"
-                                    class="w-[80vw] xs:w-[75vw] sm:w-[360px] md:w-[380px] lg:w-[400px] card-editorial rounded-2xl overflow-hidden cursor-pointer card-clickable">
+                                    class="w-[80vw] xs:w-[75vw] sm:w-[360px] md:w-[380px] lg:w-[400px] card-clean rounded-2xl overflow-hidden cursor-pointer card-clickable">
                                     @if ($k->gambar)
                                         <div class="aspect-[4/3] overflow-hidden bg-ink-100 dark:bg-ink-800">
                                             <img src="{{ asset('storage/' . $k->gambar) }}"
-                                                    class="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500"
-                                                    draggable="false" alt="{{ $k->nama_kegiatan }}" loading="lazy">
+                                                class="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500"
+                                                draggable="false" alt="{{ $k->nama_kegiatan }}" loading="lazy">
                                         </div>
                                     @else
                                         <div class="aspect-[4/3] bg-gradient-to-br from-sage-100 to-sage-200 dark:from-sage-900/40 dark:to-sage-800/20 flex items-center justify-center">
@@ -480,11 +621,12 @@
         <div class="container-fluid"><div class="divider"></div></div>
     @endif
 
-    {{-- ==================== UMKM (SELALU TAMPIL + TOMBOL WA) ==================== --}}
+    {{-- ==================== UMKM (SELALU TAMPIL) ==================== --}}
     <section id="umkm" class="py-16 sm:py-24 lg:py-32 scroll-mt-24">
         <div class="container-fluid">
             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-14">
                 <div>
+                    <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">05 — UMKM</div>
                     <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight">Usaha warga</h2>
                 </div>
                 <form method="GET" action="{{ route('landing') }}#umkm" class="flex-shrink-0">
@@ -522,12 +664,12 @@
                                 data-gambar="{{ $u->foto ? asset('storage/' . $u->foto) : '' }}"
                                 data-meta="{{ $u->alamat }}"
                                 data-whatsapp="{{ $u->whatsapp ? \App\Helpers\PhoneHelper::waLink($u->whatsapp, 'Halo, saya tertarik dengan ' . $u->nama_usaha . '. Apakah masih tersedia?') : '' }}"
-                                class="w-[70vw] xs:w-[65vw] sm:w-[300px] md:w-[320px] lg:w-[340px] card-editorial rounded-2xl overflow-hidden cursor-pointer card-clickable">
+                                class="w-[70vw] xs:w-[65vw] sm:w-[300px] md:w-[320px] lg:w-[340px] card-clean rounded-2xl overflow-hidden cursor-pointer card-clickable">
                                 @if ($u->foto)
                                     <div class="aspect-square overflow-hidden bg-ink-100 dark:bg-ink-800">
                                         <img src="{{ asset('storage/' . $u->foto) }}"
-                                                class="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500"
-                                                draggable="false" alt="{{ $u->nama_usaha }}" loading="lazy">
+                                            class="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500"
+                                            draggable="false" alt="{{ $u->nama_usaha }}" loading="lazy">
                                     </div>
                                 @else
                                     <div class="aspect-square bg-gradient-to-br from-sage-100 to-sage-200 dark:from-sage-900/40 dark:to-sage-800/20 flex items-center justify-center">
@@ -541,7 +683,6 @@
                                     <h3 class="text-fluid-base font-semibold leading-snug mb-2 line-clamp-2">{{ $u->nama_usaha }}</h3>
                                     <p class="text-fluid-xs text-ink-500 dark:text-ink-400 leading-relaxed line-clamp-2 mb-3">{{ $u->alamat }}</p>
 
-                                    {{-- Tombol WhatsApp --}}
                                     @if ($u->whatsapp)
                                         <a href="{{ \App\Helpers\PhoneHelper::waLink($u->whatsapp, 'Halo, saya tertarik dengan ' . $u->nama_usaha . '. Apakah masih tersedia?') }}"
                                             target="_blank"
@@ -570,20 +711,27 @@
     {{-- ==================== FOOTER ==================== --}}
     <footer class="border-t border-ink-200 dark:border-ink-800 mt-16">
         <div class="container-fluid py-12 sm:py-16">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-10">
+            
+            {{-- Grid Utama --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 mb-10">
+                
+                {{-- Kolom 1: Logo + Deskripsi --}}
                 <div class="md:col-span-5">
                     <div class="mb-4">
-                        <img src="{{ asset('storage/logo/logo.png') }}"
+                        <img src="{{ asset('storage/logo/trimulyo.png') }}"
                             alt="Logo {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}"
-                            class="h-10 w-auto max-w-[200px] object-contain">
+                            class="h-10 sm:h-12 w-auto max-w-[140px] sm:max-w-[200px] object-contain">
                     </div>
                     <p class="text-fluid-sm text-ink-500 dark:text-ink-400 max-w-sm leading-relaxed">
                         Sistem informasi kampung digital untuk warga {{ $rw->nama_rw ?? 'RW 02' }}.
                     </p>
                 </div>
 
+                {{-- Kolom 2: Navigasi --}}
                 <div class="md:col-span-3">
-                    <h4 class="text-fluid-xs font-semibold uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">Navigasi</h4>
+                    <h4 class="text-fluid-xs font-semibold uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">
+                        Navigasi
+                    </h4>
                     <ul class="space-y-2.5 text-fluid-sm">
                         <li><a href="#tentang" class="text-ink-600 dark:text-ink-400 hover:text-sage-700 dark:hover:text-sage-400 transition-colors">Tentang</a></li>
                         <li><a href="#layanan" class="text-ink-600 dark:text-ink-400 hover:text-sage-700 dark:hover:text-sage-400 transition-colors">Layanan</a></li>
@@ -594,8 +742,11 @@
                     </ul>
                 </div>
 
+                {{-- Kolom 3: Lainnya --}}
                 <div class="md:col-span-4">
-                    <h4 class="text-fluid-xs font-semibold uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">Lainnya</h4>
+                    <h4 class="text-fluid-xs font-semibold uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">
+                        Lainnya
+                    </h4>
                     <ul class="space-y-2.5 text-fluid-sm">
                         <li><a href="#umkm" class="text-ink-600 dark:text-ink-400 hover:text-sage-700 dark:hover:text-sage-400 transition-colors">UMKM</a></li>
                         @if ($isLoggedIn)
@@ -607,9 +758,14 @@
                 </div>
             </div>
 
-            <div class="pt-6 border-t border-ink-200 dark:border-ink-800 flex flex-col sm:flex-row justify-between gap-3 text-fluid-xs text-ink-500 dark:text-ink-400">
-                <div>&copy; {{ date('Y') }} {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}</div>
-                <div>Sistem Informasi Kampung Digital</div>
+            {{-- Copyright di Bawah (Full Width) --}}
+            <div class="pt-6 border-t border-ink-200 dark:border-ink-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-fluid-xs text-ink-500 dark:text-ink-400">
+                <div>
+                    &copy; {{ date('Y') }} - Trimulyo02 - Made By Kelompok 02
+                </div>
+                <div>
+                    Sistem Informasi Kampung Digital
+                </div>
             </div>
         </div>
     </footer>
@@ -619,11 +775,11 @@
             onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
             aria-label="Kembali ke atas"
             class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40
-                w-11 h-11 sm:w-12 sm:h-12 rounded-full
-                bg-sage-800 dark:bg-sage-500 text-white
-                flex items-center justify-center
-                opacity-0 pointer-events-none
-                transition-all duration-300 hover:scale-105">
+                    w-11 h-11 sm:w-12 sm:h-12 rounded-full
+                    bg-sage-800 dark:bg-sage-500 text-white
+                    flex items-center justify-center
+                    opacity-0 pointer-events-none
+                    transition-all duration-300 hover:scale-105">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
         </svg>
@@ -632,14 +788,14 @@
     {{-- ==================== MODAL ==================== --}}
     <div id="modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-3 sm:p-6"
         style="background: rgba(0,0,0,0.75);">
-        <div class="card-editorial rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto relative" style="animation: modalIn 0.25s ease-out;">
+        <div class="card-clean rounded-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto relative" style="animation: modalIn 0.25s ease-out;">
             <button onclick="closeModal()"
                     aria-label="Tutup"
                     class="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 w-10 h-10 rounded-full
-                        bg-white/95 dark:bg-ink-800/95
-                        flex items-center justify-center
-                        text-ink-900 dark:text-ink-100
-                        hover:bg-white dark:hover:bg-ink-700 transition-colors">
+                            bg-white/95 dark:bg-ink-800/95
+                            flex items-center justify-center
+                            text-ink-900 dark:text-ink-100
+                            hover:bg-white dark:hover:bg-ink-700 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -656,7 +812,6 @@
                 <p class="text-fluid-base text-ink-600 dark:text-ink-300 leading-relaxed whitespace-pre-line" id="modalIsi"></p>
                 <div id="modalMeta" class="mt-6 pt-5 border-t border-ink-200 dark:border-ink-800 text-fluid-sm text-ink-500 dark:text-ink-400 hidden"></div>
 
-                {{-- Tombol WhatsApp di Modal --}}
                 <div id="modalWhatsapp" class="mt-6 pt-5 border-t border-ink-200 dark:border-ink-800 hidden">
                     <a id="modalWhatsappLink" href="#"
                         target="_blank"
@@ -674,15 +829,30 @@
 
     {{-- ==================== SCRIPT ==================== --}}
     <script>
-        function toggleTheme() {
+        function toggleTheme(button = null) {
             const html = document.documentElement;
             const isDark = html.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+            if (button) {
+                button.classList.remove('theme-toggle-rotate');
+                void button.offsetWidth;
+                button.classList.add('theme-toggle-rotate');
+            }
         }
 
+        const navbar = document.getElementById('navbar');
         const backToTop = document.getElementById('backToTop');
 
         window.addEventListener('scroll', () => {
+            if (navbar) {
+                if (window.pageYOffset > 20) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
             if (window.pageYOffset > 600) {
                 backToTop.classList.remove('opacity-0', 'pointer-events-none');
             } else {
@@ -789,7 +959,6 @@
                 meta.classList.add('hidden');
             }
 
-            // Tombol WhatsApp
             const waDiv = document.getElementById('modalWhatsapp');
             const waLink = document.getElementById('modalWhatsappLink');
             if (data.whatsapp && data.whatsapp.trim() !== '') {
