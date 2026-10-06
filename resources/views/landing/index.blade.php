@@ -224,7 +224,6 @@
         <div class="container-fluid">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
                 <div class="lg:col-span-5">
-                    <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">01 — Tentang</div>
                     <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight mb-6">
                         Selamat datang di<br>
                         <span class="text-sage-700 dark:text-sage-400">{{ $rw->nama_rw ?? 'Kampung Trimulyo' }}</span>
@@ -290,7 +289,6 @@
     <section id="layanan" class="py-16 sm:py-24 lg:py-32 bg-ink-50 dark:bg-[#131313] scroll-mt-24">
         <div class="container-fluid">
             <div class="mb-12 sm:mb-16">
-                <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">02 — Layanan</div>
                 <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight max-w-3xl">Apa yang kami sediakan</h2>
             </div>
 
@@ -333,7 +331,6 @@
             <div class="container-fluid">
                 <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-14">
                     <div>
-                        <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">03 — Informasi</div>
                         <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight">Informasi terbaru</h2>
                     </div>
                     <form method="GET" action="{{ route('landing') }}#informasi" class="flex-shrink-0">
@@ -408,7 +405,6 @@
             <div class="container-fluid">
                 <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-14">
                     <div>
-                        <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">04 — Kegiatan</div>
                         <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight">Agenda kampung</h2>
                     </div>
                     <form method="GET" action="{{ route('landing') }}#kegiatan" class="flex-shrink-0">
@@ -489,7 +485,6 @@
         <div class="container-fluid">
             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-14">
                 <div>
-                    <div class="text-fluid-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-400 mb-4">05 — UMKM</div>
                     <h2 class="font-serif text-fluid-5xl leading-[1.05] tracking-tight">Usaha warga</h2>
                 </div>
                 <form method="GET" action="{{ route('landing') }}#umkm" class="flex-shrink-0">
@@ -578,7 +573,7 @@
             <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-10">
                 <div class="md:col-span-5">
                     <div class="mb-4">
-                        <img src="{{ asset('storage/logo/logo-rw02.png') }}"
+                        <img src="{{ asset('storage/logo/logo.png') }}"
                             alt="Logo {{ $rw->nama_rw ?? 'Kampung Trimulyo' }}"
                             class="h-10 w-auto max-w-[200px] object-contain">
                     </div>
