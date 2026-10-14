@@ -1,48 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head><title>Informasi</title></head>
-<body>
-    <h1>Informasi</h1>
-    <p><a href="{{ route('rw.dashboard') }}">← Dashboard</a></p>
+@extends('layouts.dashboard')
 
-    @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
+@section('title', 'Informasi')
 
-    <form method="GET" action="{{ route('rw.informasi.index') }}">
-        <input type="text" name="search" placeholder="Cari judul..." value="{{ request('search') }}">
-        <select name="status">
-            <option value="">Semua Status</option>
-            <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-            <option value="dipublikasikan" {{ request('status') == 'dipublikasikan' ? 'selected' : '' }}>Dipublikasikan</option>
-        </select>
-        <button type="submit">Cari</button>
-        <a href="{{ route('rw.informasi.index') }}">Reset</a>
-    </form>
+@section('content')
 
-    <p><a href="{{ route('rw.informasi.create') }}">+ Tambah Informasi</a></p>
+    @if (session('success'))
+        <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
+            ✅ {{ session('success') }}
+        </div>
+    @endif
 
-    <table border="1" cellpadding="8">
-        <tr><th>No</th><th>Judul</th><th>Tanggal</th><th>Status</th><th>Dibuat Oleh</th><th>Aksi</th></tr>
-        @forelse ($informasi as $i => $info)
-            <tr>
-                <td>{{ $informasi->firstItem() + $i }}</td>
-                <td>{{ $info->judul }}</td>
-                <td>{{ $info->tanggal?->format('d/m/Y') }}</td>
-                <td>{{ $info->status }}</td>
-                <td>{{ $info->user->name ?? '-' }}</td>
-                <td>
-                    <a href="{{ route('rw.informasi.edit', $info->id) }}">Edit</a>
-                    <form method="POST" action="{{ route('rw.informasi.destroy', $info->id) }}" style="display:inline" onsubmit="return confirm('Hapus?')">
-                        @csrf @method('DELETE')
-                        <button>Hapus</button>
-                    </form>
-                </td>
-            </tr>
-        @empty
-            <tr><td colspan="6">Tidak ada data.</td></tr>
-        @endforelse
-    </table>
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800">Daftar Informasi</h3>
+            <a href="{{ route('rw.informasi.create') }}" class="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition font-semibold text-sm">
+                + Tambah Informasi
+            </a>
+        </div>
 
-    <br>
-    {{ $informasi->links() }}
-</body>
-</html>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">No</th>
+                        <th class="px-4 py-3 text-left">Judul</th>
+                        <th class="px-4 py-3 text-left">Tanggal</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse ($informasi as $i => $info)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">{{ $informasi->firstItem() + $i }}</td>
+                            <td class="px-4 py-3 font-semibold text-gray-800">{{ $info->judul }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $info->tanggal?->format('d M Y') ?? '-' }}</td>
+                            <td class="px-4 py-3">
+                                <div class="flex justify-center gap-2">
+                                    <a href="{{ route('rw.informasi.edit', $info->id) }}" class="text-emerald-600 hover:text-emerald-800 font-medium">Edit</a>
+                                    <form method="POST" action="{{ route('rw.informasi.destroy', $info->id) }}" onsubmit="return confirm('Hapus?')" class="inline">
+                                        @csrf @method('DELETE')
+                                        <button class="text-red-600 hover:text-red-800 font-medium">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="4" class="text-center py-12 text-gray-500">Belum ada informasi.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-200">
+            {{ $informasi->links() }}
+        </div>
+    </div>
+
+@endsection

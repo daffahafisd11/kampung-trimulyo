@@ -1,48 +1,122 @@
-<!DOCTYPE html>
-<html>
-<head><title>Tambah Warga</title></head>
-<body>
-    <h1>Tambah Warga</h1>
-    <p><a href="{{ route('rw.warga.index') }}">← Kembali</a></p>
+@extends('layouts.dashboard')
 
-    @if ($errors->any())
-        <div style="color:red">@foreach ($errors->all() as $e) <p>{{ $e }}</p> @endforeach</div>
-    @endif
+@section('title', 'Tambah Warga')
 
-    <form method="POST" action="{{ route('rw.warga.store') }}">
-        @csrf
+@section('content')
 
-        <h3>Akun Login</h3>
-        <p><label>Nama</label><br><input type="text" name="name" value="{{ old('name') }}" required></p>
-        <p><label>Email</label><br><input type="email" name="email" value="{{ old('email') }}" required></p>
-        <p><label>Password</label><br><input type="password" name="password" required></p>
-        <p><label>Konfirmasi Password</label><br><input type="password" name="password_confirmation" required></p>
+    <div class="max-w-3xl">
+        <div class="mb-6">
+            <a href="{{ route('rw.warga.index') }}" class="text-emerald-600 hover:text-emerald-800 font-medium text-sm">← Kembali ke Data Warga</a>
+        </div>
 
-        <h3>Data Kependudukan</h3>
-        <p><label>NIK (16 digit)</label><br><input type="text" name="nik" value="{{ old('nik') }}" maxlength="16" required></p>
-        <p><label>Nama Lengkap</label><br><input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" required></p>
-        <p>
-            <label>Jenis Kelamin</label><br>
-            <select name="jenis_kelamin" required>
-                <option value="">-- Pilih --</option>
-                <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
-            </select>
-        </p>
-        <p><label>Tanggal Lahir</label><br><input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required></p>
-        <p>
-            <label>RT</label><br>
-            <select name="rt_id" required>
-                <option value="">-- Pilih RT --</option>
-                @foreach ($rt as $r)
-                    <option value="{{ $r->id }}" {{ old('rt_id') == $r->id ? 'selected' : '' }}>{{ $r->nama_rt }}</option>
-                @endforeach
-            </select>
-        </p>
-        <p><label>No HP</label><br><input type="text" name="no_hp" value="{{ old('no_hp') }}"></p>
-        <p><label>Alamat</label><br><textarea name="alamat">{{ old('alamat') }}</textarea></p>
+        @if ($errors->any())
+            <div class="bg-red-100 border-l-4 border-red-600 text-red-800 p-4 rounded-lg mb-6">
+                <p class="font-bold mb-1">Ada kesalahan:</p>
+                <ul class="list-disc ml-4 text-sm">
+                    @foreach ($errors->all() as $e)
+                        <li>{{ $e }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <button>Simpan</button>
-    </form>
-</body>
-</html>
+        <form method="POST" action="{{ route('rw.warga.store') }}" class="space-y-6">
+            @csrf
+
+            {{-- ==================== AKUN LOGIN ==================== --}}
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span>🔐</span> Akun Login
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama <span class="text-red-500">*</span></label>
+                        <input type="text" name="name" value="{{ old('name') }}" required
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                        <input type="email" name="email" value="{{ old('email') }}" required
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password <span class="text-red-500">*</span></label>
+                        <input type="password" name="password" required
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password <span class="text-red-500">*</span></label>
+                        <input type="password" name="password_confirmation" required
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            {{-- ==================== DATA KEPENDUDUKAN ==================== --}}
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span>📋</span> Data Kependudukan
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">NIK (16 digit) <span class="text-red-500">*</span></label>
+                        <input type="text" name="nik" value="{{ old('nik') }}" maxlength="16" required
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" required
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin <span class="text-red-500">*</span></label>
+                        <select name="jenis_kelamin" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option value="">-- Pilih --</option>
+                            <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir <span class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">RT <span class="text-red-500">*</span></label>
+                        <select name="rt_id" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option value="">-- Pilih RT --</option>
+                            @foreach ($rt as $r)
+                                <option value="{{ $r->id }}" {{ old('rt_id') == $r->id ? 'selected' : '' }}>{{ $r->nama_rt }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">No HP</label>
+                        <input type="text" name="no_hp" value="{{ old('no_hp') }}"
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                        <textarea name="alamat" rows="3"
+                                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">{{ old('alamat') }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ==================== TOMBOL ==================== --}}
+            <div class="flex gap-3">
+                <button type="submit" class="bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition font-semibold shadow-md">
+                    💾 Simpan
+                </button>
+                <a href="{{ route('rw.warga.index') }}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-300 transition font-semibold">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+
+@endsection

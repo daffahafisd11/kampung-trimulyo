@@ -1,52 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head><title>Semua Pengaduan</title></head>
-<body>
-    <h1>Semua Pengaduan</h1>
-    <p><a href="{{ route('rw.dashboard') }}">← Dashboard</a></p>
+@extends('layouts.dashboard')
 
-    <form method="GET" action="{{ route('rw.pengaduan.index') }}">
-        <input type="text" name="search" placeholder="Cari judul pengaduan..." value="{{ request('search') }}">
-        <select name="status">
-            <option value="">Semua Status</option>
-            <option value="menunggu_verifikasi" {{ request('status') == 'menunggu_verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
-            <option value="diterima" {{ request('status') == 'diterima' ? 'selected' : '' }}>Diterima</option>
-            <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
-            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-        </select>
-        <select name="rt_id">
-            <option value="">Semua RT</option>
-            @foreach ($rt as $r)
-                <option value="{{ $r->id }}" {{ request('rt_id') == $r->id ? 'selected' : '' }}>
-                    {{ $r->nama_rt }}
-                </option>
-            @endforeach
-        </select>
-        <button type="submit">Cari</button>
-        <a href="{{ route('rw.pengaduan.index') }}">Reset</a>
-    </form>
+@section('title', 'Semua Pengaduan')
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>No</th><th>RT</th><th>Warga</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Aksi</th>
-        </tr>
-        @forelse ($pengaduan as $i => $p)
-            <tr>
-                <td>{{ $pengaduan->firstItem() + $i }}</td>
-                <td>{{ $p->rt->nama_rt ?? '-' }}</td>
-                <td>{{ $p->warga->nama_lengkap ?? '-' }}</td>
-                <td>{{ $p->judul }}</td>
-                <td>{{ $p->kategori->nama_kategori }}</td>
-                <td>{{ $p->status }}</td>
-                <td><a href="{{ route('rw.pengaduan.show', $p->id) }}">Detail</a></td>
-            </tr>
-        @empty
-            <tr><td colspan="7">Tidak ada data.</td></tr>
-        @endforelse
-    </table>
+@section('content')
 
-    <br>
-    {{ $pengaduan->links() }}
-</body>
-</html>
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-bold text-gray-800">Daftar Pengaduan</h3>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">No</th>
+                        <th class="px-4 py-3 text-left">Judul</th>
+                        <th class="px-4 py-3 text-left">Pelapor</th>
+                        <th class="px-4 py-3 text-left">Kategori</th>
+                        <th class="px-4 py-3 text-left">Status</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse ($pengaduan as $i => $p)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">{{ $pengaduan->firstItem() + $i }}</td>
+                            <td class="px-4 py-3 font-semibold text-gray-800">{{ $p->judul }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $p->user->name ?? '-' }}</td>
+                            <td class="px-4 py-3">{{ $p->kategori->nama_kategori ?? '-' }}</td>
+                            <td class="px-4 py-3">
+                                <span class="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">
+                                    {{ $p->status ?? 'pending' }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <a href="{{ route('rw.pengaduan.show', $p->id) }}" class="text-emerald-600 hover:text-emerald-800 font-medium">Lihat</a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6" class="text-center py-12 text-gray-500">Belum ada pengaduan.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-200">
+            {{ $pengaduan->links() }}
+        </div>
+    </div>
+
+@endsection

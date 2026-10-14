@@ -1,50 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head><title>Kegiatan</title></head>
-<body>
-    <h1>Kegiatan</h1>
-    <p><a href="{{ route('rw.dashboard') }}">← Dashboard</a></p>
+@extends('layouts.dashboard')
 
-    @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
+@section('title', 'Kegiatan')
 
-    <form method="GET" action="{{ route('rw.kegiatan.index') }}">
-        <input type="text" name="search" placeholder="Cari nama kegiatan..." value="{{ request('search') }}">
-        <select name="status">
-            <option value="">Semua Status</option>
-            <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
-            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-            <option value="dibatalkan" {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
-        </select>
-        <button type="submit">Cari</button>
-        <a href="{{ route('rw.kegiatan.index') }}">Reset</a>
-    </form>
+@section('content')
 
-    <p><a href="{{ route('rw.kegiatan.create') }}">+ Tambah Kegiatan</a></p>
+    @if (session('success'))
+        <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
+            ✅ {{ session('success') }}
+        </div>
+    @endif
 
-    <table border="1" cellpadding="8">
-        <tr><th>No</th><th>Nama</th><th>Tanggal</th><th>Waktu</th><th>Lokasi</th><th>Status</th><th>Aksi</th></tr>
-        @forelse ($kegiatan as $i => $k)
-            <tr>
-                <td>{{ $kegiatan->firstItem() + $i }}</td>
-                <td>{{ $k->nama_kegiatan }}</td>
-                <td>{{ $k->tanggal?->format('d/m/Y') }}</td>
-                <td>{{ $k->waktu_mulai }} - {{ $k->waktu_selesai }}</td>
-                <td>{{ $k->lokasi }}</td>
-                <td>{{ $k->status }}</td>
-                <td>
-                    <a href="{{ route('rw.kegiatan.edit', $k->id) }}">Edit</a>
-                    <form method="POST" action="{{ route('rw.kegiatan.destroy', $k->id) }}" style="display:inline" onsubmit="return confirm('Hapus?')">
-                        @csrf @method('DELETE')
-                        <button>Hapus</button>
-                    </form>
-                </td>
-            </tr>
-        @empty
-            <tr><td colspan="7">Tidak ada data.</td></tr>
-        @endforelse
-    </table>
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800">Daftar Kegiatan</h3>
+            <a href="{{ route('rw.kegiatan.create') }}" class="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition font-semibold text-sm">
+                + Tambah Kegiatan
+            </a>
+        </div>
 
-    <br>
-    {{ $kegiatan->links() }}
-</body>
-</html>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">No</th>
+                        <th class="px-4 py-3 text-left">Nama Kegiatan</th>
+                        <th class="px-4 py-3 text-left">Tanggal</th>
+                        <th class="px-4 py-3 text-left">Lokasi</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse ($kegiatan as $i => $k)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">{{ $kegiatan->firstItem() + $i }}</td>
+                            <td class="px-4 py-3 font-semibold text-gray-800">{{ $k->nama_kegiatan }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $k->tanggal?->format('d M Y') ?? '-' }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $k->lokasi }}</td>
+                            <td class="px-4 py-3">
+                                <div class="flex justify-center gap-2">
+                                    <a href="{{ route('rw.kegiatan.edit', $k->id) }}" class="text-emerald-600 hover:text-emerald-800 font-medium">Edit</a>
+                                    <form method="POST" action="{{ route('rw.kegiatan.destroy', $k->id) }}" onsubmit="return confirm('Hapus?')" class="inline">
+                                        @csrf @method('DELETE')
+                                        <button class="text-red-600 hover:text-red-800 font-medium">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="5" class="text-center py-12 text-gray-500">Belum ada kegiatan.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-200">
+            {{ $kegiatan->links() }}
+        </div>
+    </div>
+
+@endsection
