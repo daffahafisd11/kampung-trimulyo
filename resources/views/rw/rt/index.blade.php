@@ -1,43 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head><title>Data RT</title></head>
-<body>
-    <h1>Data RT</h1>
-    <p><a href="{{ route('rw.dashboard') }}">← Dashboard</a></p>
+@extends('layouts.dashboard')
 
-    @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
+@section('title', 'Data RT')
 
-    <form method="GET" action="{{ route('rw.rt.index') }}">
-        <input type="text" name="search" placeholder="Cari nama RT..." value="{{ request('search') }}">
-        <button type="submit">Cari</button>
-        <a href="{{ route('rw.rt.index') }}">Reset</a>
-    </form>
+@section('content')
 
-    <p><a href="{{ route('rw.rt.create') }}">+ Tambah RT</a></p>
+    @if (session('success'))
+        <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
+            ✅ {{ session('success') }}
+        </div>
+    @endif
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>No</th><th>RW</th><th>Nama RT</th><th>Aksi</th>
-        </tr>
-        @forelse ($rt as $i => $r)
-            <tr>
-                <td>{{ $rt->firstItem() + $i }}</td>
-                <td>{{ $r->rw->nama_rw ?? '-' }}</td>
-                <td>{{ $r->nama_rt }}</td>
-                <td>
-                    <a href="{{ route('rw.rt.edit', $r->id) }}">Edit</a>
-                    <form method="POST" action="{{ route('rw.rt.destroy', $r->id) }}" style="display:inline" onsubmit="return confirm('Hapus?')">
-                        @csrf @method('DELETE')
-                        <button>Hapus</button>
-                    </form>
-                </td>
-            </tr>
-        @empty
-            <tr><td colspan="4">Tidak ada data.</td></tr>
-        @endforelse
-    </table>
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800">Daftar RT</h3>
+            <a href="{{ route('rw.rt.create') }}" class="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition font-semibold text-sm">
+                + Tambah RT
+            </a>
+        </div>
 
-    <br>
-    {{ $rt->links() }}
-</body>
-</html>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">No</th>
+                        <th class="px-4 py-3 text-left">Nama RT</th>
+                        <th class="px-4 py-3 text-left">Ketua</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse ($rt as $i => $r)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">{{ $i + 1 }}</td>
+                            <td class="px-4 py-3 font-semibold text-gray-800">{{ $r->nama_rt }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $r->ketua ?? '-' }}</td>
+                            <td class="px-4 py-3">
+                                <div class="flex justify-center gap-2">
+                                    <a href="{{ route('rw.rt.edit', $r->id) }}" class="text-emerald-600 hover:text-emerald-800 font-medium">Edit</a>
+                                    <form method="POST" action="{{ route('rw.rt.destroy', $r->id) }}" onsubmit="return confirm('Hapus RT ini?')" class="inline">
+                                        @csrf @method('DELETE')
+                                        <button class="text-red-600 hover:text-red-800 font-medium">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="4" class="text-center py-12 text-gray-500">Belum ada RT.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+@endsection

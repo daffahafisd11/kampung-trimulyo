@@ -13,20 +13,34 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // ==================== AKUN RW ====================
-        User::create([
-            'name' => 'Super Admin RW',
-            'email' => 'rw@kampung.test',
-            'password' => Hash::make('password'),
-            'role' => 'rw',
-        ]);
+        $adminRw = User::where('role', 'rw')->first();
+
+        if ($adminRw) {
+            $adminRw->update([
+                'name' => 'Super Admin RW',
+                'email' => 'rw.kampung02@gmail.com',
+                'password' => Hash::make('password'),
+            ]);
+        } else {
+            User::create([
+                'name' => 'Super Admin RW',
+                'email' => 'rw.kampung02@gmail.com',
+                'password' => Hash::make('password'),
+                'role' => 'rw',
+            ]);
+        }
 
         // ==================== AKUN RT ====================
-        User::create([
-            'name' => 'Admin RT 01',
-            'email' => 'rt01@kampung.test',
-            'password' => Hash::make('password'),
-            'role' => 'rt',
-        ]);
+        for ($i = 1; $i <= 5; $i++) {
+            User::updateOrCreate(
+                ['email' => sprintf('rt%02d@kampung.test', $i)],
+                [
+                    'name' => sprintf('Admin RT %02d', $i),
+                    'password' => Hash::make('password'),
+                    'role' => 'rt',
+                ]
+            );
+        }
 
         // ==================== AKUN WARGA ====================
         $dataWarga = [
@@ -77,10 +91,15 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // Set rt_id untuk admin RT 01
-        $adminRt = User::where('email', 'rt01@kampung.test')->first();
-        if ($rt01 && $adminRt) {
-            $adminRt->update(['rt_id' => $rt01->id]);
+        // Hubungkan setiap akun admin RT dengan wilayahnya.
+        for ($i = 1; $i <= 5; $i++) {
+            $namaRt = sprintf('RT %02d', $i);
+            $rt = Rt::where('nama_rt', $namaRt)->first();
+            $adminRt = User::where('email', sprintf('rt%02d@kampung.test', $i))->first();
+
+            if ($rt && $adminRt) {
+                $adminRt->update(['rt_id' => $rt->id]);
+            }
         }
 
         $this->command->info('UserSeeder: ' . User::count() . ' user dibuat.');
