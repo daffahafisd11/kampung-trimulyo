@@ -1,53 +1,86 @@
-<!DOCTYPE html>
-<html>
-<head><title>Buat Pengaduan</title></head>
-<body>
-    <h1>Buat Pengaduan</h1>
-    <p><a href="{{ route('warga.pengaduan.index') }}">← Kembali</a></p>
+@extends('layouts.dashboard-warga')
 
-    @if ($errors->any())
-        <div style="color:red">
-            @foreach ($errors->all() as $e) <p>{{ $e }}</p> @endforeach
+@section('title', 'Buat Pengaduan')
+
+@section('content')
+
+    <div class="max-w-3xl">
+        <div class="mb-6">
+            <a href="{{ route('warga.pengaduan.index') }}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">← Kembali ke Pengaduan</a>
         </div>
-    @endif
 
-    {{-- enctype="multipart/form-data" WAJIB untuk upload file --}}
-    <form method="POST" action="{{ route('warga.pengaduan.store') }}" enctype="multipart/form-data">
-        @csrf
+        @if ($errors->any())
+            <div class="bg-red-100 border-l-4 border-red-600 text-red-800 p-4 rounded-lg mb-6">
+                <p class="font-bold mb-1">Ada kesalahan:</p>
+                <ul class="list-disc ml-4 text-sm">
+                    @foreach ($errors->all() as $e)
+                        <li>{{ $e }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <p>
-            <label>Kategori</label><br>
-            <select name="kategori_id" required>
-                <option value="">-- Pilih --</option>
-                @foreach ($kategori as $k)
-                    <option value="{{ $k->id }}" {{ old('kategori_id') == $k->id ? 'selected' : '' }}>
-                        {{ $k->nama_kategori }}
-                    </option>
-                @endforeach
-            </select>
-        </p>
+        <form method="POST" action="{{ route('warga.pengaduan.store') }}" enctype="multipart/form-data" class="space-y-6">
+            @csrf
 
-        <p>
-            <label>Judul</label><br>
-            <input type="text" name="judul" value="{{ old('judul') }}" required>
-        </p>
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span>✍️</span> Buat Pengaduan Baru
+                </h3>
 
-        <p>
-            <label>Lokasi</label><br>
-            <input type="text" name="lokasi" value="{{ old('lokasi') }}" required>
-        </p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Kategori <span class="text-red-500">*</span></label>
+                        <select name="kategori_id" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="">-- Pilih Kategori --</option>
+                            @foreach ($kategori as $k)
+                                <option value="{{ $k->id }}" {{ old('kategori_id') == $k->id ? 'selected' : '' }}>
+                                    {{ $k->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <p>
-            <label>Deskripsi</label><br>
-            <textarea name="deskripsi" rows="5" required>{{ old('deskripsi') }}</textarea>
-        </p>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul <span class="text-red-500">*</span></label>
+                        <input type="text" name="judul" value="{{ old('judul') }}" required
+                               placeholder="Contoh: Jalan rusak di depan SD"
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
 
-        <p>
-            <label>Foto (opsional, max 2MB, JPG/PNG)</label><br>
-            <input type="file" name="foto" accept="image/*">
-        </p>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lokasi <span class="text-red-500">*</span></label>
+                        <input type="text" name="lokasi" value="{{ old('lokasi') }}" required
+                               placeholder="Contoh: Jl. Melati RT 01"
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
 
-        <button type="submit">Kirim</button>
-    </form>
-</body>
-</html>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi <span class="text-red-500">*</span></label>
+                        <textarea name="deskripsi" rows="5" required
+                                  placeholder="Jelaskan detail pengaduan kamu..."
+                                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">{{ old('deskripsi') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Foto (opsional, max 2MB, JPG/PNG)</label>
+                        <input type="file" name="foto" accept="image/*"
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-50 file:text-indigo-700 file:font-medium hover:file:bg-indigo-100">
+                        <p class="text-xs text-gray-500 mt-1">Foto membantu petugas memahami masalah.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button type="submit" class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition font-semibold shadow-md">
+                    📤 Kirim Pengaduan
+                </button>
+                <a href="{{ route('warga.pengaduan.index') }}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-300 transition font-semibold">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+
+@endsection

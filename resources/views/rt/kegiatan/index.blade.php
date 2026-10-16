@@ -1,44 +1,101 @@
-<!DOCTYPE html>
-<html>
-<head><title>Kegiatan RT</title></head>
-<body>
-    <h1>Kegiatan</h1>
-    <p><a href="{{ route('rt.dashboard') }}">← Dashboard</a></p>
+@extends('layouts.dashboard-rt')
 
-    @if (session('success')) <p style="color:green">{{ session('success') }}</p> @endif
+@section('title', 'Kegiatan RT')
 
-    <form method="GET" action="{{ route('rt.kegiatan.index') }}">
-        <input type="text" name="search" placeholder="Cari nama kegiatan..." value="{{ request('search') }}">
-        <button type="submit">Cari</button>
-        <a href="{{ route('rt.kegiatan.index') }}">Reset</a>
-    </form>
+@section('content')
 
-    <p><a href="{{ route('rt.kegiatan.create') }}">+ Tambah Kegiatan</a></p>
+    {{-- Header --}}
+    <div class="bg-gradient-to-r from-teal-600 to-teal-800 rounded-2xl shadow-lg p-6 mb-6 text-white">
+        <h2 class="text-2xl font-bold mb-1">🎉 Kegiatan RT</h2>
+        <p class="text-teal-100">Kelola agenda & acara di {{ Auth::user()->rt->nama_rt ?? 'RT' }}</p>
+    </div>
 
-    <table border="1" cellpadding="8">
-        <tr><th>No</th><th>Nama</th><th>Tanggal</th><th>Waktu</th><th>Lokasi</th><th>Status</th><th>Aksi</th></tr>
-        @forelse ($kegiatan as $i => $k)
-            <tr>
-                <td>{{ $kegiatan->firstItem() + $i }}</td>
-                <td>{{ $k->nama_kegiatan }}</td>
-                <td>{{ $k->tanggal?->format('d/m/Y') }}</td>
-                <td>{{ $k->waktu_mulai }} - {{ $k->waktu_selesai }}</td>
-                <td>{{ $k->lokasi }}</td>
-                <td>{{ $k->status }}</td>
-                <td>
-                    <a href="{{ route('rt.kegiatan.edit', $k->id) }}">Edit</a>
-                    <form method="POST" action="{{ route('rt.kegiatan.destroy', $k->id) }}" style="display:inline" onsubmit="return confirm('Hapus?')">
-                        @csrf @method('DELETE')
-                        <button>Hapus</button>
-                    </form>
-                </td>
-            </tr>
-        @empty
-            <tr><td colspan="7">Tidak ada data.</td></tr>
-        @endforelse
-    </table>
+    @if (session('success'))
+        <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
+            ✅ {{ session('success') }}
+        </div>
+    @endif
 
-    <br>
-    {{ $kegiatan->links() }}
-</body>
-</html>
+    {{-- Filter --}}
+    <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
+        <form method="GET" action="{{ route('rt.kegiatan.index') }}" class="flex flex-wrap gap-3">
+            <input type="text" name="search"
+                   placeholder="Cari nama kegiatan..."
+                   value="{{ request('search') }}"
+                   class="flex-1 min-w-[200px] px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none">
+            <button type="submit" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg hover:bg-teal-700 transition font-semibold">
+                🔍 Cari
+            </button>
+            @if (request('search'))
+                <a href="{{ route('rt.kegiatan.index') }}" class="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-300 transition font-semibold">
+                    Reset
+                </a>
+            @endif
+        </form>
+    </div>
+
+    {{-- Tabel --}}
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800">Daftar Kegiatan</h3>
+            <a href="{{ route('rt.kegiatan.create') }}" class="bg-teal-600 text-white px-5 py-2 rounded-lg hover:bg-teal-700 transition font-semibold text-sm">
+                + Tambah Kegiatan
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3 text-left">No</th>
+                        <th class="px-4 py-3 text-left">Nama</th>
+                        <th class="px-4 py-3 text-left">Tanggal</th>
+                        <th class="px-4 py-3 text-left">Waktu</th>
+                        <th class="px-4 py-3 text-left">Lokasi</th>
+                        <th class="px-4 py-3 text-center">Status</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse ($kegiatan as $i => $k)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">{{ $kegiatan->firstItem() + $i }}</td>
+                            <td class="px-4 py-3 font-semibold text-gray-800">{{ $k->nama_kegiatan }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $k->tanggal?->format('d/m/Y') ?? '-' }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $k->waktu_mulai }} - {{ $k->waktu_selesai }}</td>
+                            <td class="px-4 py-3 text-gray-600">{{ $k->lokasi }}</td>
+                            <td class="px-4 py-3 text-center">
+                                @php
+                                    $warna = [
+                                        'aktif' => 'bg-green-100 text-green-700',
+                                        'selesai' => 'bg-blue-100 text-blue-700',
+                                        'dibatalkan' => 'bg-red-100 text-red-700',
+                                    ][$k->status] ?? 'bg-gray-100 text-gray-700';
+                                @endphp
+                                <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $warna }}">
+                                    {{ ucfirst($k->status) }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex justify-center gap-2">
+                                    <a href="{{ route('rt.kegiatan.edit', $k->id) }}" class="text-teal-600 hover:text-teal-800 font-medium">Edit</a>
+                                    <form method="POST" action="{{ route('rt.kegiatan.destroy', $k->id) }}" onsubmit="return confirm('Hapus kegiatan ini?')" class="inline">
+                                        @csrf @method('DELETE')
+                                        <button class="text-red-600 hover:text-red-800 font-medium">Hapus</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="7" class="text-center py-12 text-gray-500">Tidak ada data.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-6 py-4 border-t border-gray-200">
+            {{ $kegiatan->links() }}
+        </div>
+    </div>
+
+@endsection
