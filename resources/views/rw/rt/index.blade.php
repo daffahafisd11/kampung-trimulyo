@@ -6,15 +6,15 @@
 
     @if (session('success'))
         <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
-            ✅ {{ session('success') }}
+            <span class="flex items-center gap-2"><x-icon name="circle-check" /> {{ session('success') }}</span>
         </div>
     @endif
 
-    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+    <div class="dashboard-card overflow-hidden bg-white">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg font-bold text-gray-800">Daftar RT</h3>
             <a href="{{ route('rw.rt.create') }}" class="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition font-semibold text-sm">
-                + Tambah RT
+                <span class="inline-flex items-center gap-2"><x-icon name="plus" size="h-4 w-4" /> Tambah RT</span>
             </a>
         </div>
 

@@ -6,7 +6,7 @@
 
     {{-- Header --}}
     <div class="bg-gradient-to-r from-teal-600 to-teal-800 rounded-2xl shadow-lg p-6 mb-6 text-white">
-        <h2 class="text-2xl font-bold mb-1">💰 Kas {{ $rt->nama_rt }}</h2>
+        <h2 class="flex items-center gap-2 text-2xl font-bold mb-1"><x-icon name="wallet" /> Kas {{ $rt->nama_rt }}</h2>
         <p class="text-teal-100">RT hanya bisa melihat, tidak bisa mengubah</p>
     </div>
 
@@ -14,7 +14,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-green-500">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-3xl">📥</span>
+                <x-icon name="wallet" size="h-7 w-7 text-green-600" />
                 <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full">Masuk</span>
             </div>
             <p class="text-2xl font-bold text-green-700">Rp {{ number_format($totalMasuk, 0, ',', '.') }}</p>
@@ -22,7 +22,7 @@
         </div>
         <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-red-500">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-3xl">📤</span>
+                <x-icon name="wallet" size="h-7 w-7 text-red-600" />
                 <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-1 rounded-full">Keluar</span>
             </div>
             <p class="text-2xl font-bold text-red-700">Rp {{ number_format($totalKeluar, 0, ',', '.') }}</p>
@@ -30,7 +30,7 @@
         </div>
         <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-teal-500">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-3xl">💵</span>
+                <x-icon name="wallet" size="h-7 w-7 text-teal-600" />
                 <span class="text-xs font-semibold text-teal-600 bg-teal-50 px-2 py-1 rounded-full">Saldo</span>
             </div>
             <p class="text-2xl font-bold text-teal-700">Rp {{ number_format($saldo, 0, ',', '.') }}</p>

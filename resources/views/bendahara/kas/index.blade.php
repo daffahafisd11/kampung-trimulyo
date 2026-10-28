@@ -5,38 +5,39 @@
 @section('content')
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-amber-600 to-amber-800 rounded-2xl shadow-lg p-6 mb-6 text-white">
-        <h2 class="text-2xl font-bold mb-1">💰 Kas {{ Auth::user()->rt->nama_rt ?? 'RT' }}</h2>
+    <div class="dashboard-welcome-card bg-gradient-to-r from-amber-600 to-amber-800 mb-6 p-5 text-white sm:p-7">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100/90">Pengelolaan keuangan</p>
+        <h2 class="text-2xl font-bold sm:text-3xl">Kas {{ Auth::user()->rt->nama_rt ?? 'RT' }}</h2>
         <p class="text-amber-100">Kelola pemasukan & pengeluaran kas RT</p>
     </div>
 
     @if (session('success'))
-        <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
-            ✅ {{ session('success') }}
+        <div class="dashboard-card mb-6 border-l-4 border-emerald-600 bg-emerald-50/75 p-4 text-emerald-800 sm:p-5">
+            {{ session('success') }}
         </div>
     @endif
 
     {{-- Ringkasan --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-green-500">
-            <p class="text-sm text-gray-600 mb-1">Total Masuk</p>
-            <p class="text-2xl font-bold text-green-700">Rp {{ number_format($totalMasuk, 0, ',', '.') }}</p>
+        <div class="dashboard-card dashboard-stat-card bg-white border-l-4 border-green-500">
+            <div class="flex items-center justify-between"><p class="text-sm font-medium text-gray-700">Total Masuk</p><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500/10"><x-icon name="wallet" size="h-5 w-5 text-green-700" /></span></div>
+            <p class="break-words text-xl font-bold tracking-tight text-green-800 sm:text-2xl">Rp {{ number_format($totalMasuk, 0, ',', '.') }}</p>
         </div>
-        <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-red-500">
-            <p class="text-sm text-gray-600 mb-1">Total Keluar</p>
-            <p class="text-2xl font-bold text-red-700">Rp {{ number_format($totalKeluar, 0, ',', '.') }}</p>
+        <div class="dashboard-card dashboard-stat-card bg-white border-l-4 border-red-500">
+            <div class="flex items-center justify-between"><p class="text-sm font-medium text-gray-700">Total Keluar</p><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10"><x-icon name="wallet" size="h-5 w-5 text-red-700" /></span></div>
+            <p class="break-words text-xl font-bold tracking-tight text-red-800 sm:text-2xl">Rp {{ number_format($totalKeluar, 0, ',', '.') }}</p>
         </div>
-        <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-amber-500">
-            <p class="text-sm text-gray-600 mb-1">Saldo Akhir</p>
-            <p class="text-2xl font-bold text-amber-700">Rp {{ number_format($saldo, 0, ',', '.') }}</p>
+        <div class="dashboard-card dashboard-stat-card bg-white border-l-4 border-amber-500">
+            <div class="flex items-center justify-between"><p class="text-sm font-medium text-gray-700">Saldo Akhir</p><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10"><x-icon name="wallet" size="h-5 w-5 text-amber-700" /></span></div>
+            <p class="break-words text-xl font-bold tracking-tight text-amber-800 sm:text-2xl">Rp {{ number_format($saldo, 0, ',', '.') }}</p>
         </div>
     </div>
 
     {{-- Tabel --}}
-    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+    <div class="dashboard-card overflow-hidden bg-white">
+        <div class="flex flex-col gap-3 border-b border-white/50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <h3 class="text-lg font-bold text-gray-800">Riwayat Transaksi</h3>
-            <a href="{{ route('bendahara.kas.create') }}" class="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700 transition font-semibold text-sm">
+            <a href="{{ route('bendahara.kas.create') }}" class="inline-flex items-center justify-center rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-amber-700">
                 + Catat Transaksi
             </a>
         </div>
@@ -86,7 +87,7 @@
             </table>
         </div>
 
-        <div class="px-6 py-4 border-t border-gray-200">
+        <div class="border-t border-white/50 px-4 py-4 sm:px-6">
             {{ $transaksi->links() }}
         </div>
     </div>

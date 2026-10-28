@@ -4,71 +4,88 @@
 
 @section('content')
 
-    <div class="max-w-2xl mx-auto">
+    <div class="mx-auto max-w-2xl">
 
         @if (session('success'))
-            <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
-                ✅ {{ session('success') }}
+            <div class="mb-6 flex items-start gap-3 rounded-2xl border border-sage-200 bg-sage-50 p-4 text-sage-900">
+                <x-icon name="circle-check" size="h-5 w-5 mt-0.5" />
+                <p class="text-sm font-medium">{{ session('success') }}</p>
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="bg-red-100 border-l-4 border-red-600 text-red-800 p-4 rounded-lg mb-6">
-                <p class="font-bold mb-1">Ada kesalahan:</p>
-                <ul class="list-disc ml-4 text-sm">
+            <div class="mb-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-800">
+                <x-icon name="alert" size="h-5 w-5 mt-0.5" />
+                <div>
+                    <p class="mb-1 font-semibold">Ada kesalahan:</p>
+                    <ul class="list-inside list-disc space-y-1 text-sm">
                     @foreach ($errors->all() as $e)
                         <li>{{ $e }}</li>
                     @endforeach
-                </ul>
+                    </ul>
+                </div>
             </div>
         @endif
 
-        <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg mb-6">
-            <p class="font-bold mb-1">💡 Info</p>
-            <p class="text-sm">Password baru minimal 6 karakter. Pastikan mudah diingat tapi sulit ditebak.</p>
+        <div class="mb-6 flex items-start gap-3 rounded-2xl border border-sage-200 bg-sage-100/70 p-4 text-sage-900">
+            <x-icon name="info" size="h-5 w-5 mt-0.5" />
+            <div>
+                <p class="mb-1 font-semibold">Tips keamanan</p>
+                <p class="text-sm leading-relaxed text-sage-800">Password baru minimal 6 karakter. Pastikan mudah diingat tapi sulit ditebak.</p>
+            </div>
         </div>
 
-        <form method="POST" action="{{ route('profile.change-password.update') }}" class="space-y-6">
+        <form method="POST" action="{{ route('profile.change-password.update') }}">
             @csrf
 
-            <div class="bg-white rounded-2xl shadow-md p-8">
-                <h1 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
-                    <span>🔒</span> Ganti Password
-                </h1>
-                <p class="text-sm text-gray-500 mb-6">Ubah password akun kamu untuk keamanan</p>
+            <section class="card-editorial overflow-hidden rounded-3xl shadow-[0_16px_48px_rgba(61,74,48,0.08)]">
+                <div class="border-b border-sage-100 px-6 py-7 sm:px-8">
+                    <div class="flex items-start gap-4">
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sage-100 text-sage-700">
+                            <x-icon name="lock" size="h-6 w-6" />
+                        </div>
+                        <div>
+                            <p class="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-sage-700">Keamanan akun</p>
+                            <h1 class="font-serif text-3xl text-ink-900">Ganti Password</h1>
+                            <p class="mt-2 text-sm leading-relaxed text-ink-500">Perbarui password untuk menjaga akun Kampung Trimulyo tetap aman.</p>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="space-y-4">
+                <div class="space-y-5 px-6 py-7 sm:px-8">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Password Lama <span class="text-red-500">*</span></label>
-                        <input type="password" name="current_password" required
+                        <label for="current_password" class="mb-2 block text-sm font-semibold text-ink-700">Password lama <span class="text-red-600">*</span></label>
+                        <input id="current_password" type="password" name="current_password" required autocomplete="current-password"
                                placeholder="Masukkan password lama"
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                               class="w-full rounded-xl border border-ink-200 bg-sage-50/50 px-4 py-3 text-sm text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-sage-500 focus:bg-white focus:ring-4 focus:ring-sage-100">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Password Baru (min 6 karakter) <span class="text-red-500">*</span></label>
-                        <input type="password" name="new_password" required
+                        <label for="new_password" class="mb-2 block text-sm font-semibold text-ink-700">Password baru <span class="text-red-600">*</span></label>
+                        <input id="new_password" type="password" name="new_password" required autocomplete="new-password"
                                placeholder="Masukkan password baru"
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                               class="w-full rounded-xl border border-ink-200 bg-sage-50/50 px-4 py-3 text-sm text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-sage-500 focus:bg-white focus:ring-4 focus:ring-sage-100">
+                        <p class="mt-2 text-xs text-ink-500">Gunakan minimal 6 karakter.</p>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password Baru <span class="text-red-500">*</span></label>
-                        <input type="password" name="new_password_confirmation" required
+                        <label for="new_password_confirmation" class="mb-2 block text-sm font-semibold text-ink-700">Konfirmasi password baru <span class="text-red-600">*</span></label>
+                        <input id="new_password_confirmation" type="password" name="new_password_confirmation" required autocomplete="new-password"
                                placeholder="Ulangi password baru"
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+                               class="w-full rounded-xl border border-ink-200 bg-sage-50/50 px-4 py-3 text-sm text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-sage-500 focus:bg-white focus:ring-4 focus:ring-sage-100">
+                    </div>
+
+                    <div class="flex flex-col-reverse gap-3 border-t border-sage-100 pt-5 sm:flex-row sm:justify-end">
+                        <a href="{{ url()->previous() }}" class="inline-flex items-center justify-center rounded-full border border-ink-200 px-6 py-3 text-sm font-semibold text-ink-700 transition hover:border-sage-400 hover:bg-sage-50">
+                            Batal
+                        </a>
+                        <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-full bg-sage-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sage-900 focus:outline-none focus:ring-4 focus:ring-sage-200">
+                            <x-icon name="check" size="h-4 w-4" />
+                            Simpan password
+                        </button>
                     </div>
                 </div>
-
-                <div class="flex gap-3 mt-8">
-                    <button type="submit" class="bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition font-semibold shadow-md">
-                        💾 Simpan Password
-                    </button>
-                    <a href="{{ url()->previous() }}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-300 transition font-semibold">
-                        Batal
-                    </a>
-                </div>
-            </div>
+            </section>
         </form>
     </div>
 

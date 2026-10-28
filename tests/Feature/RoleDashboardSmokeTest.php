@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\KasRt;
 use App\Models\Rt;
 use App\Models\Rw;
-use App\Models\KasRt;
 use App\Models\User;
 use App\Models\Warga;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -57,6 +57,17 @@ test('each role can access its dashboard and kas page', function () {
 
     $this->actingAs($users['bendahara'])
         ->get('/bendahara/dashboard')->assertOk();
+});
+
+test('rt can view its warga list without pengaduan page data', function () {
+    $users = createRoleSmokeData();
+
+    $this->actingAs($users['rtUser'])
+        ->get('/rt/warga')
+        ->assertOk()
+        ->assertSee('Data Warga')
+        ->assertSee('Warga Test')
+        ->assertDontSee('Pengaduan Saya');
 });
 
 test('bendahara can create a kas transaction and other roles cannot access bendahara area', function () {

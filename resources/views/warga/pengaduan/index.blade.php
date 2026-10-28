@@ -6,19 +6,19 @@
 
     {{-- Header --}}
     <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-2xl shadow-lg p-6 mb-6 text-white">
-        <h2 class="text-2xl font-bold mb-1">📢 Pengaduan Saya</h2>
+        <h2 class="flex items-center gap-2 text-2xl font-bold mb-1"><x-icon name="megaphone" /> Pengaduan Saya</h2>
         <p class="text-indigo-100">Kelola pengaduan yang kamu ajukan</p>
     </div>
 
     @if (session('success'))
         <div class="bg-emerald-100 border-l-4 border-emerald-600 text-emerald-800 p-4 rounded-lg mb-6">
-            ✅ {{ session('success') }}
+            <span class="flex items-center gap-2"><x-icon name="circle-check" /> {{ session('success') }}</span>
         </div>
     @endif
 
     @if (session('error'))
         <div class="bg-red-100 border-l-4 border-red-600 text-red-800 p-4 rounded-lg mb-6">
-            ❌ {{ session('error') }}
+            <span class="flex items-center gap-2"><x-icon name="alert" /> {{ session('error') }}</span>
         </div>
     @endif
 
@@ -31,14 +31,14 @@
                    class="flex-1 min-w-[200px] px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
             <select name="status" class="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                 <option value="">Semua Status</option>
-                <option value="menunggu_verifikasi" {{ request('status') == 'menunggu_verifikasi' ? 'selected' : '' }}>⏳ Menunggu Verifikasi</option>
-                <option value="diterima" {{ request('status') == 'diterima' ? 'selected' : '' }}>📥 Diterima</option>
-                <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>🔄 Diproses</option>
-                <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>✅ Selesai</option>
-                <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>❌ Ditolak</option>
+                <option value="menunggu_verifikasi" {{ request('status') == 'menunggu_verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
+                <option value="diterima" {{ request('status') == 'diterima' ? 'selected' : '' }}>Diterima</option>
+                <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
             </select>
             <button type="submit" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition font-semibold">
-                🔍 Cari
+                Cari
             </button>
             @if (request('search') || request('status'))
                 <a href="{{ route('warga.pengaduan.index') }}" class="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-300 transition font-semibold">
@@ -53,7 +53,7 @@
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg font-bold text-gray-800">Daftar Pengaduan</h3>
             <a href="{{ route('warga.pengaduan.create') }}" class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold text-sm">
-                + Ajukan Pengaduan
+                <span class="inline-flex items-center gap-2"><x-icon name="plus" size="h-4 w-4" /> Ajukan Pengaduan</span>
             </a>
         </div>
 
